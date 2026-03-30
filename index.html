@@ -7,707 +7,569 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
-/* ══════════════════════════════════════════════
-   ANIMAL CROSSING THEME
-══════════════════════════════════════════════ */
-:root {
-  --sky:#e8f4e8; --grass:#7ec87e; --grass2:#5fb05f;
-  --sand:#f5e6c8; --sand2:#e8d4a8;
-  --water:#7ec8e8; --water2:#5bacd4;
-  --cream:#fdf6e8; --cream2:#f5ead4;
-  --brown:#8b5e3c; --brown2:#6b4423;
-  --leaf:#4a9e4a; --leaf2:#2d7a2d;
-  --pink:#f5b8c8; --pink2:#e8829e;
-  --yellow:#f5e050; --yellow2:#d4bc2a;
-  --orange:#f5a050; --orange2:#d47820;
-  --teal:#50c8b8; --teal2:#2da898;
-  --purple:#b878e8; --purple2:#8850c8;
-  --white:#ffffff; --offwhite:#faf5ee;
-  --text:#4a3728; --muted:#9a8070; --border:#d4c4a8;
-  --shadow:0 4px 16px rgba(74,55,40,0.12);
-  --shadow2:0 8px 32px rgba(74,55,40,0.18);
-  --radius:16px; --radius2:24px;
+:root{
+  --sky:#e8f5e8;--grass:#5aaa5a;--grass2:#3d8a3d;
+  --sand:#f5e8c8;--sand2:#e8d4a0;
+  --cream:#fdf8ee;--cream2:#f5ecd8;
+  --brown:#7a5230;--muted:#9a8060;--border:#d4c4a0;
+  --teal:#44b8a0;--teal2:#259878;--teal3:#d8f5ee;
+  --pink:#f0b0c0;--yellow:#f0d840;--orange:#f0a040;
+  --white:#fff;--text:#3a2818;
+  --sh:0 3px 12px rgba(60,40,20,.10);
+  --sh2:0 6px 24px rgba(60,40,20,.16);
+  --r:12px;--r2:18px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:'Nunito',sans-serif;
-  background:var(--sky);
-  color:var(--text);
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  background-image:
-    radial-gradient(ellipse at 20% 0%, rgba(126,200,126,0.3) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(126,200,232,0.2) 0%, transparent 50%);
-}
+body{font-family:'Nunito',sans-serif;background:var(--sky);color:var(--text);
+  height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-/* ── TOPBAR ── */
-.topbar{
-  height:52px;background:var(--grass);
-  display:flex;align-items:center;padding:0 16px;gap:10px;
-  flex-shrink:0;
-  box-shadow:0 3px 0 var(--grass2), 0 6px 12px rgba(74,55,40,0.1);
-  position:relative;z-index:100;
-}
-.logo{
-  font-size:1.1rem;font-weight:900;color:var(--white);
-  text-shadow:0 2px 4px rgba(45,122,45,0.4);
-  white-space:nowrap;display:flex;align-items:center;gap:6px;
-}
-.logo-leaf{font-size:1.4rem}
-.divider{width:1px;height:24px;background:rgba(255,255,255,0.3)}
-.tbtn{
-  display:flex;align-items:center;gap:5px;
-  background:rgba(255,255,255,0.25);border:2px solid rgba(255,255,255,0.4);
-  border-radius:20px;padding:5px 12px;
-  color:var(--white);font-size:0.78rem;font-weight:700;cursor:pointer;
-  transition:all .18s;white-space:nowrap;font-family:'Nunito',sans-serif;
-}
-.tbtn:hover{background:rgba(255,255,255,0.4);transform:translateY(-1px)}
-.tbtn.pri{background:var(--yellow);border-color:var(--yellow2);color:var(--brown2);}
-.tbtn.pri:hover{background:#fde878}
-.tbtn.save{background:var(--teal);border-color:var(--teal2);color:var(--white)}
-.tbtn.save:hover{background:#70ddd0}
-.spacer{flex:1}
-.top-info{font-size:0.72rem;color:rgba(255,255,255,0.8);font-weight:600}
+/* TOPBAR */
+.topbar{height:46px;background:var(--grass);display:flex;align-items:center;
+  padding:0 12px;gap:7px;flex-shrink:0;
+  box-shadow:0 3px 0 var(--grass2),0 5px 10px rgba(40,80,40,.12);z-index:100}
+.logo{font-size:.95rem;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(30,80,30,.4);
+  display:flex;align-items:center;gap:5px;white-space:nowrap;margin-right:4px}
+.dv{width:1px;height:20px;background:rgba(255,255,255,.3)}
+.tbtn{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.2);
+  border:2px solid rgba(255,255,255,.35);border-radius:16px;padding:4px 10px;
+  color:#fff;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .15s;
+  white-space:nowrap;font-family:'Nunito',sans-serif}
+.tbtn:hover{background:rgba(255,255,255,.35);transform:translateY(-1px)}
+.tbtn.sv{background:var(--teal);border-color:var(--teal2)}
+.tbtn.st{background:#d4a010;border-color:#a07808}
+.sp{flex:1}
 
-/* ── WORKSPACE ── */
-.workspace{display:grid;grid-template-columns:230px 1fr 260px;flex:1;overflow:hidden;gap:0}
+/* WORKSPACE: left(tools) | center(big editor) | right(AI+thumbs) */
+.ws{display:grid;grid-template-columns:168px 1fr 234px;flex:1;overflow:hidden}
 
-/* ── LEFT PANEL ── */
-.lpanel{
-  background:var(--cream);
-  border-right:3px solid var(--border);
-  display:flex;flex-direction:column;overflow:hidden;
-}
-.lpanel-header{
-  background:var(--sand);border-bottom:2px solid var(--border);
-  padding:12px 14px 10px;
-}
-.lpanel-title{font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-.lpanel-scroll{flex:1;overflow-y:auto;padding:10px}
-.lpanel-scroll::-webkit-scrollbar{width:4px}
-.lpanel-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+/* ──────────── LEFT PANEL ──────────── */
+.lp{background:var(--cream);border-right:2px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden}
+.lp-hd{background:var(--sand);border-bottom:2px solid var(--border);
+  padding:6px 10px;flex-shrink:0;font-size:.6rem;font-weight:800;
+  color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+.lp-sc{flex:1;overflow-y:auto;padding:7px}
+.lp-sc::-webkit-scrollbar{width:3px}
+.lp-sc::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-/* Parts tree */
-.group-hdr{
-  font-size:0.65rem;font-weight:800;color:var(--muted);
-  letter-spacing:.08em;text-transform:uppercase;
-  padding:8px 4px 4px;display:flex;align-items:center;gap:6px;
-}
-.group-hdr::after{content:'';flex:1;height:1px;background:var(--border)}
-.pi{
-  display:flex;align-items:center;gap:7px;
-  padding:7px 10px;border-radius:12px;cursor:pointer;
-  transition:all .16s;border:2px solid transparent;
-  margin-bottom:3px;background:transparent;
-}
-.pi:hover{background:var(--sand);border-color:var(--border)}
-.pi.active{background:var(--white);border-color:var(--teal);box-shadow:0 2px 8px rgba(80,200,184,0.2)}
-.pi.has-data{border-left:4px solid var(--teal)}
-.pi-icon{font-size:1.1rem;width:22px;text-align:center}
+/* Parts list */
+.ghd{font-size:.56rem;font-weight:800;color:var(--muted);letter-spacing:.07em;
+  text-transform:uppercase;padding:6px 2px 3px;display:flex;align-items:center;gap:4px}
+.ghd::after{content:'';flex:1;height:1px;background:var(--border)}
+.pi{display:flex;align-items:center;gap:5px;padding:4px 7px;border-radius:9px;
+  cursor:pointer;transition:all .13s;border:2px solid transparent;margin-bottom:2px}
+.pi:hover{background:var(--sand)}
+.pi.active{background:#fff;border-color:var(--teal);box-shadow:0 1px 5px rgba(68,184,160,.18)}
+.pi.has-d{border-left:3px solid var(--teal)}
+.pi-ic{font-size:.88rem;width:16px;text-align:center}
 .pi-info{flex:1;min-width:0}
-.pi-name{font-size:0.78rem;font-weight:700;color:var(--text)}
-.pi-sub{font-size:0.62rem;color:var(--muted);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pi-vis{
-  width:22px;height:22px;border-radius:8px;background:none;
-  border:2px solid var(--border);cursor:pointer;font-size:0.75rem;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;flex-shrink:0;color:var(--muted);
-}
+.pi-nm{font-size:.68rem;font-weight:700}
+.pi-sb{font-size:.55rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pi-vis{width:17px;height:17px;border-radius:5px;background:none;border:1.5px solid var(--border);
+  cursor:pointer;font-size:.62rem;display:flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:all .12s;flex-shrink:0}
 .pi-vis:hover{border-color:var(--teal);color:var(--teal2)}
 .pi-vis.off{opacity:.3}
 
-/* Pixel editor */
-.editor-wrap{
-  background:var(--white);border-radius:var(--radius);
-  border:2px solid var(--border);padding:10px;margin-top:8px;
-  box-shadow:var(--shadow);
-}
-.editor-title{
-  font-size:0.72rem;font-weight:800;color:var(--text);
-  margin-bottom:8px;display:flex;align-items:center;justify-content:between;gap:6px;
-}
-.editor-title span{flex:1}
-.pixel-canvas-wrap{
-  display:flex;justify-content:center;
-  background:repeating-conic-gradient(#e8e0d0 0% 25%,#f5eedd 0% 50%) 0 0/10px 10px;
-  border-radius:8px;overflow:hidden;border:2px solid var(--border);
-  cursor:crosshair;
-}
-#pixelCanvas{image-rendering:pixelated;display:block}
+/* Tool & palette section */
+.sec{margin-top:8px}
+.sec-t{font-size:.56rem;font-weight:800;color:var(--muted);letter-spacing:.07em;
+  text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.sec-t::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* Tool row */
-.tool-row{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
-.tool-btn{
-  width:28px;height:28px;border-radius:8px;border:2px solid var(--border);
-  background:var(--cream);cursor:pointer;font-size:0.85rem;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;color:var(--text);
-}
-.tool-btn:hover{background:var(--sand);border-color:var(--teal)}
-.tool-btn.active{background:var(--teal);border-color:var(--teal2);color:var(--white)}
+.trow{display:flex;gap:3px;flex-wrap:wrap}
+.t2{width:28px;height:28px;border-radius:7px;border:1.5px solid var(--border);
+  background:var(--cream);cursor:pointer;font-size:.82rem;
+  display:flex;align-items:center;justify-content:center;transition:all .13s}
+.t2:hover{background:var(--sand);border-color:var(--teal)}
+.t2.active{background:var(--teal);border-color:var(--teal2);color:#fff}
+.t2-sm{width:auto;padding:0 6px;font-size:.58rem;font-weight:700}
 
-/* Color palette (Animal Crossing style) */
-.palette-grid{
-  display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:8px;
-}
-.pal-color{
-  aspect-ratio:1;border-radius:6px;cursor:pointer;border:2px solid transparent;
-  transition:all .15s;
-}
-.pal-color:hover{transform:scale(1.15);z-index:1}
-.pal-color.selected{border-color:var(--brown);transform:scale(1.1);box-shadow:0 2px 6px rgba(0,0,0,0.2)}
-.cur-color-row{display:flex;align-items:center;gap:8px;margin-top:8px}
-.cur-color-box{width:32px;height:32px;border-radius:8px;border:2px solid var(--border);cursor:pointer}
-.cur-color-hex{
-  flex:1;border:2px solid var(--border);border-radius:8px;
-  padding:4px 8px;font-size:0.72rem;font-family:'Nunito',sans-serif;
-  color:var(--text);background:var(--cream);outline:none;
-}
-.cur-color-hex:focus{border-color:var(--teal)}
+/* Palette */
+.pg{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:5px}
+.pc{aspect-ratio:1;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:all .12s}
+.pc:hover{transform:scale(1.18);z-index:1}
+.pc.sel{border-color:var(--brown);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.cc-row{display:flex;align-items:center;gap:5px;margin-top:5px}
+.cc-box{width:26px;height:26px;border-radius:6px;border:2px solid var(--border);cursor:pointer;flex-shrink:0}
+.cc-hex{flex:1;border:1.5px solid var(--border);border-radius:6px;padding:3px 6px;
+  font-size:.65rem;font-family:'Nunito',sans-serif;color:var(--text);background:var(--cream);outline:none;min-width:0}
+.cc-hex:focus{border-color:var(--teal)}
+.cc-add{width:22px;height:22px;border-radius:5px;border:1.5px solid var(--border);
+  background:var(--cream);cursor:pointer;font-size:.7rem;display:flex;align-items:center;
+  justify-content:center;transition:all .12s;flex-shrink:0}
+.cc-add:hover{background:var(--teal);border-color:var(--teal2);color:#fff}
 
-/* Pattern presets */
-.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
-.preset-card{
-  border:2px solid var(--border);border-radius:10px;
-  padding:6px;text-align:center;cursor:pointer;
-  background:var(--white);transition:all .16s;
-  position:relative;
-}
-.preset-card:hover{border-color:var(--teal);background:var(--cream);transform:translateY(-1px)}
-.preset-card.saved{border-color:var(--yellow2);background:#fffbe8}
-.preset-canvas{image-rendering:pixelated;display:block;margin:0 auto 3px;border-radius:4px;border:1px solid var(--border)}
-.preset-name{font-size:0.58rem;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.preset-del{
-  position:absolute;top:2px;right:2px;width:14px;height:14px;
-  background:var(--pink2);border:none;border-radius:50%;color:#fff;
-  font-size:0.5rem;cursor:pointer;display:none;align-items:center;justify-content:center;
-}
-.preset-card:hover .preset-del{display:flex}
+/* Presets */
+.prg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:4px}
+.prc{border:2px solid var(--border);border-radius:8px;padding:4px 3px;text-align:center;
+  cursor:pointer;background:#fff;transition:all .14s;position:relative}
+.prc:hover{border-color:var(--teal);transform:translateY(-1px)}
+.prc canvas{image-rendering:pixelated;display:block;margin:0 auto 2px;border-radius:3px;border:1px solid var(--border)}
+.prc-nm{font-size:.52rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prc-del{position:absolute;top:2px;right:2px;width:12px;height:12px;background:#e04848;
+  border:none;border-radius:50%;color:#fff;font-size:.42rem;cursor:pointer;
+  display:none;align-items:center;justify-content:center}
+.prc:hover .prc-del{display:flex}
+.pr-empty{font-size:.6rem;color:var(--muted);text-align:center;padding:8px 2px;
+  font-weight:600;grid-column:1/-1;line-height:1.5}
 
-/* ── CENTER ── */
-.cpanel{
-  display:flex;flex-direction:column;
-  background:var(--sky);overflow:hidden;
-  background-image:
-    radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.5) 0%, transparent 60%);
-}
-.ctoolbar{
-  height:44px;background:var(--sand);border-bottom:2px solid var(--border);
-  display:flex;align-items:center;padding:0 12px;gap:8px;
-  box-shadow:0 2px 8px rgba(74,55,40,0.08);
-}
-.vbtn{
-  padding:5px 14px;border-radius:20px;border:2px solid var(--border);
-  background:var(--white);color:var(--muted);font-size:0.75rem;font-weight:700;
-  cursor:pointer;transition:all .16s;font-family:'Nunito',sans-serif;
-}
+/* ──────────── CENTER PANEL ──────────── */
+.cp{display:flex;flex-direction:column;background:var(--sky);overflow:hidden}
+
+/* Mode tabs at top */
+.mode-bar{height:38px;background:var(--sand);border-bottom:2px solid var(--border);
+  display:flex;align-items:center;padding:0 10px;gap:6px;flex-shrink:0;
+  box-shadow:0 2px 6px rgba(60,40,20,.07)}
+.mode-tag{font-size:.6rem;font-weight:800;color:var(--muted);margin-right:2px}
+.vbtn{padding:4px 11px;border-radius:15px;border:2px solid var(--border);background:#fff;
+  color:var(--muted);font-size:.68rem;font-weight:700;cursor:pointer;transition:all .14s;
+  font-family:'Nunito',sans-serif}
 .vbtn:hover{background:var(--cream);border-color:var(--teal);color:var(--teal2)}
-.vbtn.active{background:var(--teal);border-color:var(--teal2);color:var(--white);box-shadow:0 2px 8px rgba(80,200,184,0.3)}
-.zoom-row{display:flex;align-items:center;gap:6px;margin-left:auto}
-.zbtn{
-  width:26px;height:26px;border-radius:8px;border:2px solid var(--border);
-  background:var(--white);color:var(--muted);cursor:pointer;font-size:0.85rem;
-  display:flex;align-items:center;justify-content:center;transition:all .15s;
-  font-family:'Nunito',sans-serif;
-}
+.vbtn.active{background:var(--teal);border-color:var(--teal2);color:#fff;
+  box-shadow:0 2px 5px rgba(68,184,160,.25)}
+.vbtn.edit-mode{background:var(--orange);border-color:#c07820;color:#fff}
+.vbtn.edit-mode:hover{background:#d08010}
+
+/* Face selector (shown in edit mode) */
+.face-bar{height:34px;background:var(--cream2);border-bottom:2px solid var(--border);
+  display:flex;align-items:center;padding:0 10px;gap:5px;flex-shrink:0;display:none}
+.face-bar.show{display:flex}
+.face-lbl{font-size:.6rem;font-weight:800;color:var(--muted)}
+.fbtn{padding:3px 9px;border-radius:12px;border:2px solid var(--border);background:#fff;
+  color:var(--muted);font-size:.65rem;font-weight:700;cursor:pointer;transition:all .13s;
+  font-family:'Nunito',sans-serif}
+.fbtn:hover{border-color:var(--orange);color:var(--orange)}
+.fbtn.active{background:var(--orange);border-color:#c07820;color:#fff}
+.zrow{display:flex;align-items:center;gap:4px;margin-left:auto}
+.zbtn{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--border);
+  background:#fff;color:var(--muted);cursor:pointer;font-size:.78rem;
+  display:flex;align-items:center;justify-content:center;transition:all .12s;font-family:'Nunito',sans-serif}
 .zbtn:hover{background:var(--cream);border-color:var(--teal);color:var(--teal2)}
-.zlabel{font-size:0.72rem;color:var(--muted);font-weight:700;min-width:28px;text-align:center}
+.zlbl{font-size:.65rem;color:var(--muted);font-weight:700;min-width:24px;text-align:center}
 
-.ccenter{
-  flex:1;display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
-}
-/* Soft grass ground */
-.ccenter::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:60px;
-  background:linear-gradient(to top, var(--grass) 0%, transparent 100%);
-  pointer-events:none;z-index:0;
-}
-#canvas2d{image-rendering:pixelated;position:relative;z-index:1;display:block;border-radius:8px}
-#canvas3d{position:absolute;inset:0;width:100%!important;height:100%!important;display:none;z-index:1}
+/* Center canvas area */
+.cc{flex:1;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden}
+.cc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:44px;
+  background:linear-gradient(to top,var(--grass) 0%,transparent 100%);
+  pointer-events:none;z-index:0}
 
-.empty-state{
-  position:absolute;z-index:2;text-align:center;pointer-events:none;
-  background:rgba(255,255,255,0.85);border-radius:var(--radius2);
-  padding:32px 40px;border:3px solid var(--border);
-  box-shadow:var(--shadow2);
-}
-.es-icon{font-size:3.5rem;margin-bottom:12px;animation:bob 2s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.es-title{font-size:1rem;font-weight:900;color:var(--text);margin-bottom:6px}
-.es-sub{font-size:0.78rem;color:var(--muted);line-height:1.7}
+/* 2D preview canvas */
+#c2d{image-rendering:pixelated;position:relative;z-index:1;display:block;border-radius:6px;
+  cursor:pointer}
+#c2d.edit-cur{cursor:crosshair}
 
-.hint3d{
-  position:absolute;bottom:70px;left:50%;transform:translateX(-50%);
-  background:rgba(255,255,255,0.9);border:2px solid var(--border);
-  border-radius:20px;padding:6px 16px;font-size:0.68rem;color:var(--muted);
-  z-index:5;white-space:nowrap;pointer-events:none;display:none;font-weight:600;
-  box-shadow:var(--shadow);
-}
-.hint3d.show{display:block}
+/* Pixel edit canvas (big, overlays center) */
+#cEdit{image-rendering:pixelated;position:relative;z-index:2;display:none;
+  cursor:crosshair;border-radius:8px;box-shadow:var(--sh2);
+  border:3px solid var(--orange)}
 
-/* ── RIGHT PANEL ── */
-.rpanel{
-  background:var(--cream);border-left:3px solid var(--border);
-  display:flex;flex-direction:column;overflow:hidden;
-}
-.rpanel-header{
-  background:var(--sand);border-bottom:2px solid var(--border);
-  padding:12px 14px 10px;
-}
-.rpanel-title{font-size:0.72rem;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+/* 3D canvas */
+#c3d{position:absolute;inset:0;width:100%!important;height:100%!important;display:none;z-index:1}
 
-.rpanel-scroll{flex:1;overflow-y:auto;padding:10px}
-.rpanel-scroll::-webkit-scrollbar{width:4px}
-.rpanel-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+/* Checker bg for edit canvas */
+.edit-checker{
+  display:none;position:absolute;z-index:1;
+  background:repeating-conic-gradient(#ddd6c4 0% 25%,#ece5d4 0% 50%) 0 0/12px 12px;
+  border-radius:8px;
+}
+.edit-checker.show{display:block}
 
-/* Full upload */
-.full-upload{
-  border:3px dashed var(--border);border-radius:var(--radius);
-  padding:14px;text-align:center;cursor:pointer;transition:all .2s;
-  background:var(--white);margin-bottom:10px;
-}
-.full-upload:hover{border-color:var(--teal);background:rgba(80,200,184,0.05);transform:translateY(-1px)}
-.full-upload input{display:none}
-.fu-icon{font-size:1.8rem;margin-bottom:4px}
-.fu-title{font-size:0.78rem;font-weight:800;color:var(--text)}
-.fu-sub{font-size:0.65rem;color:var(--muted)}
-.fu-ok{font-size:0.7rem;color:var(--teal2);font-weight:700;margin-top:4px;display:none}
+.empty{position:absolute;z-index:3;text-align:center;
+  background:rgba(255,255,255,.88);border-radius:var(--r2);padding:26px 32px;
+  border:3px solid var(--border);box-shadow:var(--sh2)}
+.e-ic{font-size:3rem;animation:bob 2s ease-in-out infinite;margin-bottom:9px}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.e-t{font-size:.9rem;font-weight:900;margin-bottom:4px}
+.e-s{font-size:.7rem;color:var(--muted);line-height:1.8}
 
-/* AI prompt box */
-.ai-box{
-  background:linear-gradient(135deg, #f0faf8, #e8f8ff);
-  border:2px solid var(--teal);border-radius:var(--radius);
-  padding:12px;margin-bottom:10px;
-}
-.ai-title{font-size:0.75rem;font-weight:800;color:var(--teal2);margin-bottom:8px;display:flex;align-items:center;gap:5px}
-.ai-prompt{
-  width:100%;border:2px solid var(--border);border-radius:10px;
-  padding:8px 10px;font-size:0.78rem;font-family:'Nunito',sans-serif;
-  color:var(--text);background:var(--white);outline:none;resize:none;
-  min-height:60px;transition:border-color .15s;
-}
-.ai-prompt:focus{border-color:var(--teal)}
-.ai-row{display:flex;gap:6px;margin-top:8px;align-items:center}
-.ai-target{
-  flex:1;border:2px solid var(--border);border-radius:8px;
-  padding:5px 8px;font-size:0.7rem;font-family:'Nunito',sans-serif;
-  color:var(--text);background:var(--white);outline:none;cursor:pointer;
-}
-.ai-target:focus{border-color:var(--teal)}
-.ai-gen-btn{
-  background:var(--teal);border:2px solid var(--teal2);border-radius:10px;
-  padding:7px 14px;color:var(--white);font-size:0.75rem;font-weight:800;
-  cursor:pointer;transition:all .18s;font-family:'Nunito',sans-serif;white-space:nowrap;
-}
-.ai-gen-btn:hover{background:var(--teal2);transform:translateY(-1px)}
-.ai-gen-btn:disabled{opacity:.5;cursor:wait;transform:none}
-.ai-status{font-size:0.65rem;color:var(--muted);margin-top:6px;min-height:14px;font-weight:600}
+.hint3d{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,.9);border:2px solid var(--border);border-radius:16px;
+  padding:4px 12px;font-size:.6rem;color:var(--muted);z-index:5;pointer-events:none;
+  display:none;font-weight:600;box-shadow:var(--sh);white-space:nowrap}
+.hint3d.on{display:block}
+
+/* Pixel coord display */
+.px-info{position:absolute;top:8px;left:8px;z-index:10;
+  background:rgba(255,255,255,.88);border:2px solid var(--border);border-radius:8px;
+  padding:3px 8px;font-size:.62rem;font-weight:700;color:var(--text);display:none;
+  box-shadow:var(--sh);pointer-events:none}
+.px-info.show{display:block}
+
+/* ──────────── RIGHT PANEL ──────────── */
+.rp{background:var(--cream);border-left:2px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden}
+.rp-hd{background:var(--sand);border-bottom:2px solid var(--border);
+  padding:6px 10px;flex-shrink:0;font-size:.6rem;font-weight:800;
+  color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+.rp-sc{flex:1;overflow-y:auto;padding:8px}
+.rp-sc::-webkit-scrollbar{width:3px}
+.rp-sc::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.fu{border:2.5px dashed var(--border);border-radius:var(--r);padding:11px;text-align:center;
+  cursor:pointer;transition:all .18s;background:#fff;margin-bottom:8px}
+.fu:hover{border-color:var(--teal);background:var(--teal3);transform:translateY(-1px)}
+.fu input{display:none}
+.fu-ic{font-size:1.5rem;margin-bottom:2px}
+.fu-t{font-size:.7rem;font-weight:800}
+.fu-s{font-size:.58rem;color:var(--muted)}
+.fu-ok{font-size:.62rem;color:var(--teal2);font-weight:700;margin-top:3px;display:none}
+
+/* AI box */
+.ai-box{background:linear-gradient(135deg,#edfaf5,#e4f4ff);border:2px solid var(--teal);
+  border-radius:var(--r);padding:9px;margin-bottom:8px}
+.ai-t{font-size:.68rem;font-weight:800;color:var(--teal2);margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.ai-ta{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:6px 8px;
+  font-size:.7rem;font-family:'Nunito',sans-serif;color:var(--text);background:#fff;
+  outline:none;resize:none;min-height:50px;transition:border-color .14s}
+.ai-ta:focus{border-color:var(--teal)}
+.ai-row{display:flex;gap:4px;margin-top:5px;align-items:center}
+.ai-sel{flex:1;border:1.5px solid var(--border);border-radius:7px;padding:4px 6px;
+  font-size:.65rem;font-family:'Nunito',sans-serif;color:var(--text);background:#fff;outline:none}
+.ai-sel:focus{border-color:var(--teal)}
+.ai-btn{background:var(--teal);border:2px solid var(--teal2);border-radius:8px;
+  padding:5px 11px;color:#fff;font-size:.67rem;font-weight:800;cursor:pointer;
+  transition:all .15s;font-family:'Nunito',sans-serif;white-space:nowrap}
+.ai-btn:hover{background:var(--teal2);transform:translateY(-1px)}
+.ai-btn:disabled{opacity:.5;cursor:wait;transform:none}
+.ai-st{font-size:.58rem;color:var(--muted);margin-top:4px;min-height:12px;font-weight:600;line-height:1.4}
 
 /* Thumbs */
-.thumb-section-title{
-  font-size:0.65rem;font-weight:800;color:var(--muted);
-  letter-spacing:.08em;text-transform:uppercase;
-  margin:8px 0 6px;display:flex;align-items:center;gap:6px;
-}
-.thumb-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.thumb-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.tc{
-  background:var(--white);border-radius:12px;border:2px solid var(--border);
-  padding:8px 6px;text-align:center;cursor:pointer;transition:all .16s;position:relative;
-}
-.tc:hover{border-color:var(--teal);transform:translateY(-1px);box-shadow:var(--shadow)}
-.tc.active{border-color:var(--teal);box-shadow:0 4px 12px rgba(80,200,184,0.25)}
-.tc.has-data{border-left:4px solid var(--teal)}
+.th-sec{font-size:.58rem;font-weight:800;color:var(--muted);letter-spacing:.07em;
+  text-transform:uppercase;margin:7px 0 4px;display:flex;align-items:center;gap:4px}
+.th-sec::after{content:'';flex:1;height:1px;background:var(--border)}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.tc{background:#fff;border-radius:9px;border:2px solid var(--border);padding:5px 4px;
+  text-align:center;cursor:pointer;transition:all .14s;position:relative}
+.tc:hover{border-color:var(--teal);transform:translateY(-1px);box-shadow:var(--sh)}
+.tc.active{border-color:var(--teal);box-shadow:0 3px 8px rgba(68,184,160,.2)}
+.tc.has-d{border-left:3px solid var(--teal)}
 .tc.ovl{border-style:dashed}
-.tc canvas{image-rendering:pixelated;display:block;margin:0 auto 4px;border-radius:4px}
-.tc-name{font-size:0.63rem;color:var(--text);font-weight:700}
-.tc-badge{
-  position:absolute;top:3px;right:3px;font-size:0.5rem;
-  padding:1px 5px;border-radius:6px;font-weight:700;
-}
-.tc-badge.ok{background:rgba(80,200,184,0.2);color:var(--teal2)}
-.tc-badge.no{background:rgba(154,128,112,0.15);color:var(--muted)}
+.tc canvas{image-rendering:pixelated;display:block;margin:0 auto 2px;border-radius:3px}
+.tc-nm{font-size:.56rem;font-weight:700}
+.tc-b{position:absolute;top:2px;right:2px;font-size:.44rem;padding:1px 4px;
+  border-radius:4px;font-weight:700}
+.tc-b.ok{background:rgba(68,184,160,.16);color:var(--teal2)}
+.tc-b.no{background:rgba(154,128,96,.1);color:var(--muted)}
 
-/* Save buttons */
-.save-wrap{padding:10px;border-top:2px solid var(--border);background:var(--sand)}
-.save-all{
-  width:100%;padding:11px;border-radius:14px;
-  background:linear-gradient(135deg, var(--teal), var(--water2));
-  border:none;color:var(--white);font-size:0.82rem;font-weight:800;
-  cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;
-  box-shadow:0 4px 12px rgba(80,200,184,0.35);letter-spacing:.3px;
-}
-.save-all:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,200,184,0.45)}
-.save-row{display:flex;gap:7px;margin-top:8px}
-.ssm{
-  flex:1;padding:8px;border-radius:10px;
-  background:var(--white);border:2px solid var(--border);
-  color:var(--muted);font-size:0.7rem;font-weight:700;cursor:pointer;
-  transition:all .16s;font-family:'Nunito',sans-serif;
-}
+.sw{padding:8px;border-top:2px solid var(--border);background:var(--sand);flex-shrink:0}
+.sa{width:100%;padding:9px;border-radius:11px;
+  background:linear-gradient(135deg,var(--teal),#2a9878);border:none;color:#fff;
+  font-size:.75rem;font-weight:800;cursor:pointer;transition:all .17s;
+  font-family:'Nunito',sans-serif;box-shadow:0 3px 9px rgba(68,184,160,.28)}
+.sa:hover{transform:translateY(-2px);box-shadow:0 5px 14px rgba(68,184,160,.4)}
+.srw{display:flex;gap:5px;margin-top:6px}
+.ssm{flex:1;padding:6px;border-radius:8px;background:#fff;border:2px solid var(--border);
+  color:var(--muted);font-size:.62rem;font-weight:700;cursor:pointer;transition:all .13s;
+  font-family:'Nunito',sans-serif}
 .ssm:hover{background:var(--cream);border-color:var(--teal);color:var(--teal2)}
 
-/* Status bar */
-.sbar{
-  height:26px;background:var(--grass);
-  box-shadow:0 -2px 0 var(--grass2);
-  display:flex;align-items:center;padding:0 14px;gap:14px;
-  font-size:0.65rem;color:rgba(255,255,255,0.85);font-weight:700;flex-shrink:0;
-}
-.sdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.4)}
+/* Status */
+.sbar{height:22px;background:var(--grass);box-shadow:0 -2px 0 var(--grass2);
+  display:flex;align-items:center;padding:0 10px;gap:10px;
+  font-size:.58rem;color:rgba(255,255,255,.82);font-weight:700;flex-shrink:0}
+.sdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4)}
 .sdot.g{background:var(--yellow)}
 
-/* Popups */
-.toast{
-  position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-20px);
-  background:var(--teal);color:var(--white);border-radius:20px;
-  padding:8px 20px;font-size:0.78rem;font-weight:700;
-  opacity:0;transition:all .3s;pointer-events:none;z-index:999;
-  box-shadow:var(--shadow2);white-space:nowrap;
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* Loading spinner */
-.spinner{
-  display:inline-block;width:14px;height:14px;
-  border:2px solid rgba(255,255,255,0.4);border-top-color:var(--white);
-  border-radius:50%;animation:spin .7s linear infinite;
-}
+/* Toast */
+.toast{position:fixed;top:54px;left:50%;transform:translateX(-50%) translateY(-14px);
+  background:var(--teal);color:#fff;border-radius:16px;padding:6px 16px;
+  font-size:.7rem;font-weight:700;opacity:0;transition:all .26s;pointer-events:none;
+  z-index:9999;box-shadow:var(--sh2);white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.sp2{display:inline-block;width:11px;height:11px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <div class="logo"><span class="logo-leaf">🍃</span> Skin Island</div>
-  <div class="divider"></div>
+  <div class="logo">🍃 Skin Island</div>
+  <div class="dv"></div>
   <button class="tbtn" onclick="document.getElementById('fi1').click()">📂 열기</button>
-  <input type="file" id="fi1" accept="image/png" style="display:none" onchange="loadFullSkin(this)">
-  <button class="tbtn save" onclick="downloadFull()">💾 저장</button>
-  <button class="tbtn" onclick="downloadAllParts()">📦 파츠 저장</button>
-  <div class="divider"></div>
-  <button class="tbtn" onclick="savePreset()">⭐ 패턴 저장</button>
+  <input type="file" id="fi1" accept="image/png" style="display:none" onchange="loadFull(this)">
+  <button class="tbtn sv" onclick="dlFull()">💾 저장</button>
+  <button class="tbtn" onclick="dlParts()">📦 파츠</button>
+  <div class="dv"></div>
+  <button class="tbtn st" onclick="savePreset()">⭐ 패턴저장</button>
+  <button class="tbtn" onclick="undo()">↩️ 되돌리기</button>
   <button class="tbtn" onclick="resetAll()">🔄 초기화</button>
-  <div class="spacer"></div>
-  <span class="top-info">🏝️ 64×64 · Java Edition</span>
+  <div class="sp"></div>
+  <span style="font-size:.62rem;color:rgba(255,255,255,.75);font-weight:600">🏝️ 64×64 Java</span>
 </div>
 
-<!-- WORKSPACE -->
-<div class="workspace">
+<div class="ws">
 
-<!-- ── LEFT PANEL ── -->
-<div class="lpanel">
-  <div class="lpanel-header">
-    <div class="lpanel-title">파츠 & 편집</div>
-  </div>
-  <div class="lpanel-scroll">
+<!-- ── LEFT ── -->
+<div class="lp">
+  <div class="lp-hd">파츠 & 도구</div>
+  <div class="lp-sc">
 
-    <!-- Parts list -->
     <div id="partsList"></div>
 
-    <!-- Pixel editor -->
-    <div class="editor-wrap" id="editorWrap">
-      <div class="editor-title">
-        <span id="editorPartName">파츠 선택 후 편집</span>
-        <button class="tool-btn" style="width:auto;padding:0 8px;font-size:0.65rem;font-weight:700" onclick="clearEditing()">지우기</button>
-      </div>
-      <div class="pixel-canvas-wrap" id="pixelWrap">
-        <canvas id="pixelCanvas" width="64" height="64" style="width:128px;height:128px"></canvas>
-      </div>
-
-      <!-- Drawing tools -->
-      <div class="tool-row">
-        <button class="tool-btn active" id="tb_draw" onclick="setTool('draw',this)" title="그리기">✏️</button>
-        <button class="tool-btn" id="tb_fill" onclick="setTool('fill',this)" title="채우기">🪣</button>
-        <button class="tool-btn" id="tb_erase" onclick="setTool('erase',this)" title="지우개">🧹</button>
-        <button class="tool-btn" id="tb_pick" onclick="setTool('pick',this)" title="색상 추출">💉</button>
-        <div style="flex:1"></div>
-        <button class="tool-btn" onclick="undoEdit()" title="실행취소">↩️</button>
-        <button class="tool-btn" onclick="mirrorEdit()" title="좌우반전">↔️</button>
-      </div>
-
-      <!-- Color palette (AC style) -->
-      <div class="palette-grid" id="paletteGrid"></div>
-      <div class="cur-color-row">
-        <div class="cur-color-box" id="curColorBox" onclick="document.getElementById('colorPicker').click()" title="색상 선택"></div>
-        <input type="color" id="colorPicker" style="display:none" onchange="setColor(this.value)">
-        <input class="cur-color-hex" id="colorHex" type="text" value="#FFB3C1" onchange="setColor(this.value)" maxlength="7">
-        <button class="tool-btn" onclick="addToPalette(curColor)" title="팔레트에 추가">＋</button>
+    <!-- Drawing tools -->
+    <div class="sec">
+      <div class="sec-t">그리기 도구</div>
+      <div class="trow">
+        <button class="t2 active" id="tb_draw" onclick="setTool('draw',this)" title="펜 (P)">✏️</button>
+        <button class="t2" id="tb_fill" onclick="setTool('fill',this)" title="채우기 (F)">🪣</button>
+        <button class="t2" id="tb_erase" onclick="setTool('erase',this)" title="지우개 (E)">🧹</button>
+        <button class="t2" id="tb_pick" onclick="setTool('pick',this)" title="색상추출 (I)">💉</button>
+        <button class="t2 t2-sm" onclick="flipH()" title="좌우반전">↔️</button>
+        <button class="t2 t2-sm" onclick="clearPart()" title="파츠 지우기" style="font-size:.6rem">삭제</button>
       </div>
     </div>
 
-    <!-- Pattern presets -->
-    <div style="margin-top:12px">
-      <div class="group-hdr">⭐ 저장된 패턴</div>
-      <div class="preset-grid" id="presetGrid">
-        <div style="grid-column:1/-1;text-align:center;font-size:0.7rem;color:var(--muted);padding:10px;font-weight:600">
-          상단 [패턴 저장] 버튼으로<br>현재 편집 중인 파츠를 저장해요!
-        </div>
+    <!-- Palette -->
+    <div class="sec">
+      <div class="sec-t">팔레트</div>
+      <div class="pg" id="palGrid"></div>
+      <div class="cc-row">
+        <div class="cc-box" id="ccBox" onclick="document.getElementById('cpick').click()"></div>
+        <input type="color" id="cpick" style="display:none" onchange="setCol(this.value)">
+        <input class="cc-hex" id="cHex" type="text" maxlength="7" onchange="setCol(this.value)">
+        <button class="cc-add" onclick="addPal(curCol)" title="추가">＋</button>
       </div>
+    </div>
+
+    <!-- Presets -->
+    <div class="sec">
+      <div class="sec-t">저장된 패턴</div>
+      <div class="prg" id="preGrid"></div>
     </div>
 
   </div>
 </div>
 
 <!-- ── CENTER ── -->
-<div class="cpanel">
-  <div class="ctoolbar">
-    <button class="vbtn" id="vbtn3d" onclick="setView('3d',this)">🎮 3D</button>
-    <button class="vbtn active" id="vbtnF" onclick="setView('front',this)">앞</button>
-    <button class="vbtn" id="vbtnB" onclick="setView('back',this)">뒤</button>
-    <button class="vbtn" id="vbtnUV" onclick="setView('uv',this)">UV맵</button>
-    <div class="divider" style="background:var(--border)"></div>
+<div class="cp">
+  <!-- Mode bar -->
+  <div class="mode-bar">
+    <span class="mode-tag">모드:</span>
+    <button class="vbtn active" id="vbPreview" onclick="setMode('preview',this)">👁 미리보기</button>
+    <button class="vbtn" id="vbEdit" onclick="setMode('edit',this)">✏️ 픽셀 편집</button>
+    <button class="vbtn" id="vb3d" onclick="setMode('3d',this)">🎮 3D</button>
+    <div class="dv" style="background:var(--border)"></div>
+    <button class="vbtn" id="vbBack" onclick="toggleBack(this)" style="display:none">앞/뒤</button>
     <button class="vbtn" id="gridBtn" onclick="toggleGrid(this)">격자</button>
-    <button class="vbtn" id="ovlBtn" onclick="toggleOverlay(this)">경계</button>
-    <div class="zoom-row">
+    <button class="vbtn" id="ovlBtn" onclick="toggleOvl(this)">경계</button>
+    <div class="zrow">
       <button class="zbtn" onclick="zoom(-1)">−</button>
-      <span class="zlabel" id="zLabel">×6</span>
+      <span class="zlbl" id="zLbl">×6</span>
       <button class="zbtn" onclick="zoom(1)">+</button>
     </div>
   </div>
-  <div class="ccenter" id="ccenter">
-    <canvas id="canvas2d"></canvas>
-    <canvas id="canvas3d"></canvas>
-    <div class="empty-state" id="emptyState">
-      <div class="es-icon">🏝️</div>
-      <div class="es-title">Skin Island에 오신 걸 환영해요!</div>
-      <div class="es-sub">
-        스킨 파일을 업로드하거나<br>
-        AI로 자동 생성해보세요 ✨<br><br>
-        <small>우측 📁 버튼 또는 AI 프롬프트 입력</small>
-      </div>
+
+  <!-- Face selector (edit mode only) -->
+  <div class="face-bar" id="faceBar">
+    <span class="face-lbl">면 선택:</span>
+    <button class="fbtn active" id="fb_front" onclick="setFace('front',this)">앞</button>
+    <button class="fbtn" id="fb_back" onclick="setFace('back',this)">뒤</button>
+    <button class="fbtn" id="fb_right" onclick="setFace('right',this)">오른쪽</button>
+    <button class="fbtn" id="fb_left" onclick="setFace('left',this)">왼쪽</button>
+    <button class="fbtn" id="fb_top" onclick="setFace('top',this)">위</button>
+    <button class="fbtn" id="fb_bot" onclick="setFace('bot',this)">아래</button>
+    <span style="margin-left:auto;font-size:.6rem;color:var(--muted);font-weight:600" id="faceInfo"></span>
+  </div>
+
+  <div class="cc" id="cc">
+    <!-- checker bg for edit mode -->
+    <div class="edit-checker" id="editChecker"></div>
+    <!-- Preview canvas -->
+    <canvas id="c2d"></canvas>
+    <!-- Pixel edit canvas (big) -->
+    <canvas id="cEdit"></canvas>
+    <!-- 3D canvas -->
+    <canvas id="c3d"></canvas>
+
+    <div class="empty" id="empty">
+      <div class="e-ic">🏝️</div>
+      <div class="e-t">Skin Island에 오신 걸 환영해요!</div>
+      <div class="e-s">스킨을 업로드하거나<br>AI로 자동 생성해보세요 ✨<br><br><small>우측 📁 또는 AI 프롬프트</small></div>
     </div>
+    <div class="px-info" id="pxInfo"></div>
     <div class="hint3d" id="hint3d">🖱️ 드래그: 회전 &nbsp;|&nbsp; 스크롤: 줌 &nbsp;|&nbsp; 우클릭: 이동</div>
   </div>
 </div>
 
-<!-- ── RIGHT PANEL ── -->
-<div class="rpanel">
-  <div class="rpanel-header">
-    <div class="rpanel-title">스킨 & AI 생성</div>
-  </div>
-  <div class="rpanel-scroll">
-
-    <!-- Upload -->
-    <div class="full-upload" onclick="document.getElementById('fi2').click()">
-      <input type="file" id="fi2" accept="image/png" style="display:none" onchange="loadFullSkin(this)">
-      <div class="fu-icon">📁</div>
-      <div class="fu-title">전체 스킨 업로드</div>
-      <div class="fu-sub">64×64 PNG 파일</div>
+<!-- ── RIGHT ── -->
+<div class="rp">
+  <div class="rp-hd">스킨 & AI 생성</div>
+  <div class="rp-sc">
+    <div class="fu" onclick="document.getElementById('fi2').click()">
+      <input type="file" id="fi2" accept="image/png" style="display:none" onchange="loadFull(this)">
+      <div class="fu-ic">📁</div>
+      <div class="fu-t">전체 스킨 업로드</div>
+      <div class="fu-s">64×64 PNG</div>
       <div class="fu-ok" id="fuOk"></div>
     </div>
 
-    <!-- AI Box -->
     <div class="ai-box">
-      <div class="ai-title">✨ AI 스킨 자동 생성</div>
-      <textarea class="ai-prompt" id="aiPrompt" placeholder="예) 핑크 토끼 귀 달린 파스텔 후디&#10;파란 바다 무늬 원피스&#10;노란 별 패턴 마법사 로브"></textarea>
+      <div class="ai-t">✨ AI 스킨 생성</div>
+      <textarea class="ai-ta" id="aiPmt" placeholder="예) 핑크 토끼귀 파스텔 후디&#10;파란 바다 무늬 원피스&#10;별 패턴 마법사 로브"></textarea>
       <div class="ai-row">
-        <select class="ai-target" id="aiTarget">
+        <select class="ai-sel" id="aiTgt">
           <option value="full">전체 스킨</option>
           <option value="head">머리</option>
           <option value="body">몸통</option>
-          <option value="jacket">재킷 오버레이</option>
+          <option value="jacket">재킷</option>
           <option value="rarm">오른팔</option>
           <option value="larm">왼팔</option>
           <option value="rleg">오른다리</option>
           <option value="lleg">왼다리</option>
         </select>
-        <button class="ai-gen-btn" id="aiBtn" onclick="generateWithAI()">✨ 생성</button>
+        <button class="ai-btn" id="aiBtn" onclick="genAI()">✨ 생성</button>
       </div>
-      <div class="ai-status" id="aiStatus"></div>
+      <div class="ai-st" id="aiSt"></div>
     </div>
 
-    <!-- Part thumbnails -->
-    <div class="thumb-section-title">베이스 레이어</div>
-    <div class="thumb-grid" id="thumbBase"></div>
-    <div class="thumb-section-title" style="margin-top:12px">오버레이 레이어</div>
-    <div class="thumb-grid" id="thumbOverlay"></div>
-
+    <div class="th-sec">베이스 레이어</div>
+    <div class="tg" id="thBase"></div>
+    <div class="th-sec" style="margin-top:8px">오버레이 레이어</div>
+    <div class="tg" id="thOvl"></div>
   </div>
-  <div class="save-wrap">
-    <button class="save-all" onclick="downloadFull()">💾 합성 스킨 저장 (.png)</button>
-    <div class="save-row">
-      <button class="ssm" onclick="downloadAllParts()">📦 파츠 전체</button>
-      <button class="ssm" onclick="downloadView()">📷 캡처</button>
+  <div class="sw">
+    <button class="sa" onclick="dlFull()">💾 합성 스킨 저장 (.png)</button>
+    <div class="srw">
+      <button class="ssm" onclick="dlParts()">📦 파츠</button>
+      <button class="ssm" onclick="dlView()">📷 캡처</button>
       <button class="ssm" onclick="resetAll()">🔄 초기화</button>
     </div>
   </div>
 </div>
-
-</div><!-- /workspace -->
+</div>
 
 <div class="sbar">
   <div class="sdot" id="sdot"></div>
-  <span id="stxt">스킨을 업로드하거나 AI로 생성해보세요 🌿</span>
-  <div style="margin-left:auto;display:flex;gap:14px">
-    <span id="sparts">베이스 0/6 · 오버레이 0/6</span>
-    <span>64×64 · Java</span>
+  <span id="stxt">스킨을 업로드하거나 AI로 생성하세요 🌿</span>
+  <div style="margin-left:auto;display:flex;gap:10px">
+    <span id="sparts">0/12</span><span>64×64</span>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-// PARTS DEFINITION (full UV map)
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
+// PARTS
+// ════════════════════════════════════════
 const PARTS = [
-  {id:'head',   name:'머리',          icon:'🐰', group:'base',    isOverlay:false, uvF:[8,8,8,8],    uvB:[24,8,8,8],   uvTop:[8,0,8,8],   uvBot:[16,0,8,8], uvR:[0,8,8,8],    uvL:[16,8,8,8],  w:8,h:8},
-  {id:'body',   name:'몸통',          icon:'👕', group:'base',    isOverlay:false, uvF:[20,20,8,12],  uvB:[32,20,8,12], uvTop:[20,16,8,4], uvBot:[28,16,8,4],uvR:[16,20,4,12], uvL:[28,20,4,12],w:8,h:12},
-  {id:'rarm',   name:'오른팔',        icon:'💪', group:'base',    isOverlay:false, uvF:[44,20,4,12],  uvB:[52,20,4,12], uvTop:[44,16,4,4], uvBot:[48,16,4,4],uvR:[40,20,4,12], uvL:[48,20,4,12],w:4,h:12},
-  {id:'larm',   name:'왼팔',          icon:'🦾', group:'base',    isOverlay:false, uvF:[36,52,4,12],  uvB:[44,52,4,12], uvTop:[36,48,4,4], uvBot:[40,48,4,4],uvR:[32,52,4,12], uvL:[40,52,4,12],w:4,h:12},
-  {id:'rleg',   name:'오른다리',      icon:'🦵', group:'base',    isOverlay:false, uvF:[4,20,4,12],   uvB:[12,20,4,12], uvTop:[4,16,4,4],  uvBot:[8,16,4,4], uvR:[0,20,4,12],  uvL:[8,20,4,12], w:4,h:12},
-  {id:'lleg',   name:'왼다리',        icon:'🦵', group:'base',    isOverlay:false, uvF:[20,52,4,12],  uvB:[28,52,4,12], uvTop:[20,48,4,4], uvBot:[24,48,4,4],uvR:[16,52,4,12], uvL:[24,52,4,12],w:4,h:12},
-  {id:'hat',    name:'모자 오버레이', icon:'🎩', group:'overlay', isOverlay:true,  uvF:[40,8,8,8],    uvB:[56,8,8,8],   uvTop:[40,0,8,8],  uvBot:[48,0,8,8], uvR:[32,8,8,8],   uvL:[48,8,8,8],  w:8,h:8},
-  {id:'jacket', name:'재킷',          icon:'🧥', group:'overlay', isOverlay:true,  uvF:[20,36,8,12],  uvB:[32,36,8,12], uvTop:[20,32,8,4], uvBot:[28,32,8,4],uvR:[16,36,4,12], uvL:[28,36,4,12],w:8,h:12},
-  {id:'rarm2',  name:'오른팔 겉',     icon:'🫱', group:'overlay', isOverlay:true,  uvF:[44,36,4,12],  uvB:[52,36,4,12], uvTop:[44,32,4,4], uvBot:[48,32,4,4],uvR:[40,36,4,12], uvL:[48,36,4,12],w:4,h:12},
-  {id:'larm2',  name:'왼팔 겉',       icon:'🫲', group:'overlay', isOverlay:true,  uvF:[52,52,4,12],  uvB:[60,52,4,12], uvTop:[52,48,4,4], uvBot:[56,48,4,4],uvR:[48,52,4,12], uvL:[56,52,4,12],w:4,h:12},
-  {id:'rleg2',  name:'오른다리 겉',   icon:'🦵', group:'overlay', isOverlay:true,  uvF:[4,36,4,12],   uvB:[12,36,4,12], uvTop:[4,32,4,4],  uvBot:[8,32,4,4], uvR:[0,36,4,12],  uvL:[8,36,4,12], w:4,h:12},
-  {id:'lleg2',  name:'왼다리 겉',     icon:'🦿', group:'overlay', isOverlay:true,  uvF:[4,52,4,12],   uvB:[12,52,4,12], uvTop:[4,48,4,4],  uvBot:[8,48,4,4], uvR:[0,52,4,12],  uvL:[8,52,4,12], w:4,h:12},
+  {id:'head',   nm:'머리',       ic:'🐰',g:'base',ov:false, uvF:[8,8,8,8],   uvB:[24,8,8,8],  uvT:[8,0,8,8],   uvBt:[16,0,8,8], uvR:[0,8,8,8],   uvL:[16,8,8,8],  w:8,h:8},
+  {id:'body',   nm:'몸통',       ic:'👕',g:'base',ov:false, uvF:[20,20,8,12], uvB:[32,20,8,12],uvT:[20,16,8,4], uvBt:[28,16,8,4],uvR:[16,20,4,12],uvL:[28,20,4,12], w:8,h:12},
+  {id:'rarm',   nm:'오른팔',     ic:'💪',g:'base',ov:false, uvF:[44,20,4,12], uvB:[52,20,4,12],uvT:[44,16,4,4], uvBt:[48,16,4,4],uvR:[40,20,4,12],uvL:[48,20,4,12], w:4,h:12},
+  {id:'larm',   nm:'왼팔',       ic:'🦾',g:'base',ov:false, uvF:[36,52,4,12], uvB:[44,52,4,12],uvT:[36,48,4,4], uvBt:[40,48,4,4],uvR:[32,52,4,12],uvL:[40,52,4,12], w:4,h:12},
+  {id:'rleg',   nm:'오른다리',   ic:'🦵',g:'base',ov:false, uvF:[4,20,4,12],  uvB:[12,20,4,12],uvT:[4,16,4,4],  uvBt:[8,16,4,4], uvR:[0,20,4,12], uvL:[8,20,4,12],  w:4,h:12},
+  {id:'lleg',   nm:'왼다리',     ic:'🦵',g:'base',ov:false, uvF:[20,52,4,12], uvB:[28,52,4,12],uvT:[20,48,4,4], uvBt:[24,48,4,4],uvR:[16,52,4,12],uvL:[24,52,4,12], w:4,h:12},
+  {id:'hat',    nm:'모자',        ic:'🎩',g:'ovl', ov:true,  uvF:[40,8,8,8],   uvB:[56,8,8,8],  uvT:[40,0,8,8],  uvBt:[48,0,8,8], uvR:[32,8,8,8],  uvL:[48,8,8,8],   w:8,h:8},
+  {id:'jacket', nm:'재킷',        ic:'🧥',g:'ovl', ov:true,  uvF:[20,36,8,12], uvB:[32,36,8,12],uvT:[20,32,8,4], uvBt:[28,32,8,4],uvR:[16,36,4,12],uvL:[28,36,4,12], w:8,h:12},
+  {id:'rarm2',  nm:'오른팔겉',    ic:'🫱',g:'ovl', ov:true,  uvF:[44,36,4,12], uvB:[52,36,4,12],uvT:[44,32,4,4], uvBt:[48,32,4,4],uvR:[40,36,4,12],uvL:[48,36,4,12], w:4,h:12},
+  {id:'larm2',  nm:'왼팔겉',      ic:'🫲',g:'ovl', ov:true,  uvF:[52,52,4,12], uvB:[60,52,4,12],uvT:[52,48,4,4], uvBt:[56,48,4,4],uvR:[48,52,4,12],uvL:[56,52,4,12], w:4,h:12},
+  {id:'rleg2',  nm:'오른다리겉',  ic:'🦵',g:'ovl', ov:true,  uvF:[4,36,4,12],  uvB:[12,36,4,12],uvT:[4,32,4,4],  uvBt:[8,32,4,4], uvR:[0,36,4,12], uvL:[8,36,4,12],  w:4,h:12},
+  {id:'lleg2',  nm:'왼다리겉',    ic:'🦿',g:'ovl', ov:true,  uvF:[4,52,4,12],  uvB:[12,52,4,12],uvT:[4,48,4,4],  uvBt:[8,48,4,4], uvR:[0,52,4,12], uvL:[8,52,4,12],  w:4,h:12},
 ];
 
-// ═══════════════════════════════════════════════════════════
-// ANIMAL CROSSING PALETTE (15 hues × 4 shades)
-// ═══════════════════════════════════════════════════════════
-const AC_PALETTE = [
-  '#ffffff','#f5f0e8','#e8d8c0','#c8b090',
-  '#f5c8c8','#e89898','#c85858','#903030',
-  '#f5d8a8','#e8b870','#c88030','#905010',
-  '#f5f0a0','#e8d858','#c8b020','#908000',
-  '#c8e8a0','#90c860','#509830','#2d6810',
-  '#a0e8d0','#60c8a8','#309878','#106850',
-  '#a0d0f0','#60a8e0','#3070c0','#104890',
-  '#c0a8f0','#9070d0','#6040a8','#402880',
-  '#f0a8d0','#d870a8','#b03878','#781050',
-  '#d0c8b8','#a89880','#786850','#503828',
-  '#f8f8f8','#d0d0d0','#909090','#484848',
-  '#ffe8b0','#ffb850','#e87820','#b04000',
-  '#b0f0e0','#60d8b8','#20a888','#007858',
-  '#b8d8ff','#70a8f8','#3068d0','#0838a0',
-  '#ffd8f0','#ff90c8','#e04890','#a01060',
-];
+const PAL=['#ffffff','#f5f0e8','#e8d8c0','#c8b090','#f5c8c8','#e89898','#c85858','#902828','#f5d8a8','#e8b870','#c88030','#904810','#f5f0a0','#e8d858','#c8b020','#907800','#c8e8a0','#90c860','#509830','#2a6010','#a0e8d0','#60c8a8','#309878','#106050','#a0d0f0','#60a8e0','#306ec0','#104090','#c0a8f0','#9070d0','#6040a8','#402080','#f0a8d0','#d870a8','#b03878','#780848','#d0c8b8','#a89880','#786850','#503828','#f8f8f8','#d0d0d0','#909090','#484848','#ffe8b0','#ffb850','#e87020','#b03800','#b0f0e0','#60d8b8','#20a888','#007858','#b8d8ff','#70a8f8','#3068d0','#0838a0','#ffd8f0','#ff90c8','#e04890','#a00858'];
 
-// ═══════════════════════════════════════════════════════════
+// face key → uvProp mapping
+const FACE_UV = {front:'uvF', back:'uvB', right:'uvR', left:'uvL', top:'uvT', bot:'uvBt'};
+
+// ════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
 const S = {
-  layers: {},
-  selPart: 'head',
-  view: 'front',
-  scale: 6,
-  grid: false,
-  overlay: false,
-  vis: Object.fromEntries(PARTS.map(p=>[p.id,true])),
-  tool: 'draw',
-  color: '#FFB3C1',
-  editHistory: [],
-  presets: JSON.parse(localStorage.getItem('skinIslandPresets')||'[]'),
+  layers:{}, sel:'head', mode:'preview',
+  scale:6, grid:false, ovl:false, back:false,
+  face:'front',   // current editing face
+  tool:'draw',
+  hist:[],
+  vis:Object.fromEntries(PARTS.map(p=>[p.id,true])),
 };
+let curCol='#FFB3C1';
+let drawing=false;
 
-let curColor = S.color;
-
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
 // THREE.JS
-// ═══════════════════════════════════════════════════════════
-let threeCtx = null;
-
-function init3D() {
-  const c3 = document.getElementById('canvas3d');
-  const cont = document.getElementById('ccenter');
-  const W=cont.clientWidth, H=cont.clientHeight;
-  const renderer = new THREE.WebGLRenderer({canvas:c3, antialias:false, alpha:true});
+// ════════════════════════════════════════
+let T=null;
+function init3D(){
+  const c3=document.getElementById('c3d');
+  const cont=document.getElementById('cc');
+  const W=cont.clientWidth,H=cont.clientHeight;
+  const renderer=new THREE.WebGLRenderer({canvas:c3,antialias:false,alpha:true});
   renderer.setSize(W,H); renderer.setPixelRatio(window.devicePixelRatio);
-  const scene = new THREE.Scene(); scene.background=null;
-  const camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 100);
-  camera.position.set(0,0,4.5);
-  scene.add(new THREE.AmbientLight(0xffffff,0.7));
-  const dl=new THREE.DirectionalLight(0xfffbf0,0.9); dl.position.set(2,4,3); scene.add(dl);
-  const dl2=new THREE.DirectionalLight(0xd0f0e0,0.3); dl2.position.set(-2,-1,-2); scene.add(dl2);
-
-  const charGroup = new THREE.Group(); scene.add(charGroup);
-  const sc=1/16;
-  function mkPart(w,h,d,inf=0){
-    const geo=new THREE.BoxGeometry((w+inf*2)*sc,(h+inf*2)*sc,(d+inf*2)*sc);
-    const mat=new THREE.MeshLambertMaterial({transparent:true,alphaTest:0.05});
-    return new THREE.Mesh(geo,mat);
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(42,W/H,0.1,100);
+  camera.position.set(0,0,5);
+  scene.add(new THREE.AmbientLight(0xffffff,0.78));
+  const dl=new THREE.DirectionalLight(0xfffbf0,0.88); dl.position.set(3,5,4); scene.add(dl);
+  scene.add(Object.assign(new THREE.DirectionalLight(0xd0f0e0,0.22),{position:new THREE.Vector3(-2,-2,-3)}));
+  const G=new THREE.Group(); scene.add(G);
+  const U=1/16;
+  function box(w,h,d,inf=0){
+    const g=new THREE.BoxGeometry((w+inf*2)*U,(h+inf*2)*U,(d+inf*2)*U);
+    return new THREE.Mesh(g,new THREE.MeshLambertMaterial({transparent:true,alphaTest:0.04}));
   }
-
-  const m={};
-  m.head=mkPart(8,8,8); m.head.position.set(0,(12+4)*sc,0); charGroup.add(m.head);
-  m.hat=mkPart(8,8,8,0.5); m.hat.position.set(0,(12+4)*sc,0); charGroup.add(m.hat);
-  m.body=mkPart(8,12,4); m.body.position.set(0,0,0); charGroup.add(m.body);
-  m.jacket=mkPart(8,12,4,0.5); m.jacket.position.set(0,0,0); charGroup.add(m.jacket);
-
-  const mkArm=(side,inf=0)=>{
-    const piv=new THREE.Group();
-    piv.position.set(side*(4+4/2)*sc,0,0);
-    const mesh=mkPart(4,12,4,inf); piv.add(mesh); charGroup.add(piv); return {piv,mesh};
-  };
-  const ra=mkArm(-1); m.rarm=ra.mesh; m.rArmPiv=ra.piv;
-  const la=mkArm(1);  m.larm=la.mesh; m.lArmPiv=la.piv;
-  const ra2=mkArm(-1,0.5); m.rarm2=ra2.mesh; ra2.piv.position.set(-ra.piv.position.x,0,0); m.rArmPiv.add(m.rarm2);
-  const la2=mkArm(1,0.5);  m.larm2=la2.mesh; la2.piv.position.set(-la.piv.position.x,0,0); m.lArmPiv.add(m.larm2);
-
-  const mkLeg=(side,inf=0)=>{
-    const piv=new THREE.Group(); piv.position.set(side*(2)*sc,-6*sc,0);
-    const mesh=mkPart(4,12,4,inf); piv.add(mesh); charGroup.add(piv); return {piv,mesh};
-  };
-  const rl=mkLeg(-1); m.rleg=rl.mesh; m.rLegPiv=rl.piv;
-  const ll=mkLeg(1);  m.lleg=ll.mesh; m.lLegPiv=ll.piv;
-  m.rleg2=mkPart(4,12,4,0.5); m.rLegPiv.add(m.rleg2);
-  m.lleg2=mkPart(4,12,4,0.5); m.lLegPiv.add(m.lleg2);
-
-  charGroup.position.set(0,-0.3,0);
+  const M={};
+  // Head center y=+16U, Body center y=+6U, Arms shoulder at y=+12U, Legs crotch at y=0
+  M.head=box(8,8,8);    M.head.position.y=16*U;    G.add(M.head);
+  M.hat=box(8,8,8,0.5); M.hat.position.y=16*U;     G.add(M.hat);
+  M.body=box(8,12,4);   M.body.position.y=6*U;      G.add(M.body);
+  M.jacket=box(8,12,4,0.5); M.jacket.position.y=6*U; G.add(M.jacket);
+  function arm(side,inf=0){
+    const piv=new THREE.Group(); piv.position.set(side*6*U,12*U,0);
+    const m=box(4,12,4,inf); m.position.y=-6*U; piv.add(m); G.add(piv);
+    return{piv,m};
+  }
+  function leg(side,inf=0){
+    const piv=new THREE.Group(); piv.position.set(side*2*U,0,0);
+    const m=box(4,12,4,inf); m.position.y=-6*U; piv.add(m); G.add(piv);
+    return{piv,m};
+  }
+  const ra=arm(-1); M.rarm=ra.m; M.rAP=ra.piv;
+  const la=arm(+1); M.larm=la.m; M.lAP=la.piv;
+  M.rarm2=box(4,12,4,0.5); M.rarm2.position.y=-6*U; M.rAP.add(M.rarm2);
+  M.larm2=box(4,12,4,0.5); M.larm2.position.y=-6*U; M.lAP.add(M.larm2);
+  const rl=leg(-1); M.rleg=rl.m; M.rLP=rl.piv;
+  const ll=leg(+1); M.lleg=ll.m; M.lLP=ll.piv;
+  M.rleg2=box(4,12,4,0.5); M.rleg2.position.y=-6*U; M.rLP.add(M.rleg2);
+  M.lleg2=box(4,12,4,0.5); M.lleg2.position.y=-6*U; M.lLP.add(M.lleg2);
+  G.position.y=-4*U;
 
   let t=0;
-  function idle(){
-    t+=0.022;
-    m.rArmPiv.rotation.x=Math.sin(t)*0.15;
-    m.lArmPiv.rotation.x=-Math.sin(t)*0.15;
-    m.rLegPiv.rotation.x=-Math.sin(t)*0.15;
-    m.lLegPiv.rotation.x=Math.sin(t)*0.15;
-    charGroup.position.y=-0.3+Math.sin(t*0.5)*0.025;
-  }
+  function idle(){t+=0.02;const w=Math.sin(t)*0.14;M.rAP.rotation.x=w;M.lAP.rotation.x=-w;M.rLP.rotation.x=-w;M.lLP.rotation.x=w;G.position.y=-4*U+Math.sin(t*.5)*.018;}
 
-  let drag=false, pan=false, px=0, py=0, rotX=0.15, rotY=0.25, panX=0, panY=0, dist=4.5;
+  let drag=false,pan=false,px=0,py=0,rotY=0.3,rotX=0.15,panX=0,panY=0,dist=5;
   c3.addEventListener('mousedown',e=>{if(e.button===0)drag=true;if(e.button===2)pan=true;px=e.clientX;py=e.clientY;});
   window.addEventListener('mouseup',()=>{drag=false;pan=false;});
   window.addEventListener('mousemove',e=>{
-    if(drag){rotY+=(e.clientX-px)*0.008;rotX+=(e.clientY-py)*0.008;rotX=Math.max(-1.2,Math.min(1.2,rotX));}
-    if(pan){panX+=(e.clientX-px)*0.005;panY-=(e.clientY-py)*0.005;}
+    const dx=e.clientX-px,dy=e.clientY-py;
+    if(drag){rotY+=dx*.007;rotX+=dy*.007;rotX=Math.max(-1.3,Math.min(1.3,rotX));}
+    if(pan){panX+=dx*.004;panY-=dy*.004;}
     px=e.clientX;py=e.clientY;
   });
-  c3.addEventListener('wheel',e=>{dist+=e.deltaY*0.005;dist=Math.max(1.5,Math.min(10,dist));});
+  c3.addEventListener('wheel',e=>{dist=Math.max(2,Math.min(12,dist+e.deltaY*.005));});
   c3.addEventListener('contextmenu',e=>e.preventDefault());
-
   let ltd=0;
-  c3.addEventListener('touchstart',e=>{if(e.touches.length===1){drag=true;px=e.touches[0].clientX;py=e.touches[0].clientY;}else{ltd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}});
-  c3.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1&&drag){rotY+=(e.touches[0].clientX-px)*0.01;rotX+=(e.touches[0].clientY-py)*0.01;px=e.touches[0].clientX;py=e.touches[0].clientY;}else if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);dist-=(d-ltd)*0.02;dist=Math.max(1.5,Math.min(10,dist));ltd=d;}},{passive:false});
+  c3.addEventListener('touchstart',e=>{if(e.touches.length===1){drag=true;px=e.touches[0].clientX;py=e.touches[0].clientY;}else ltd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);});
+  c3.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1&&drag){rotY+=(e.touches[0].clientX-px)*.009;rotX+=(e.touches[0].clientY-py)*.009;px=e.touches[0].clientX;py=e.touches[0].clientY;}else if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);dist=Math.max(2,Math.min(12,dist-(d-ltd)*.02));ltd=d;}},{passive:false});
   c3.addEventListener('touchend',()=>drag=false);
-
   window.addEventListener('resize',()=>{const W2=cont.clientWidth,H2=cont.clientHeight;renderer.setSize(W2,H2);camera.aspect=W2/H2;camera.updateProjectionMatrix();});
 
   function loop(){
-    if(S.view!=='3d') return;
-    requestAnimationFrame(loop);
-    idle();
+    if(S.mode!=='3d')return;
+    requestAnimationFrame(loop);idle();
     camera.position.x=dist*Math.sin(rotY)*Math.cos(rotX)+panX;
     camera.position.y=dist*Math.sin(rotX)+panY;
     camera.position.z=dist*Math.cos(rotY)*Math.cos(rotX);
-    camera.lookAt(panX,panY-0.1,0);
+    camera.lookAt(panX,panY,0);
     renderer.render(scene,camera);
   }
-
-  threeCtx={renderer,scene,camera,meshes:m,charGroup,loop};
+  T={renderer,scene,camera,M,G,loop};
 }
 
-function applyUV(mesh,faces,tex){
+function uvApply(mesh,faces,tex){
   if(!mesh)return;
   const arr=mesh.geometry.attributes.uv.array;
   faces.forEach(([px,py,pw,ph],fi)=>{
@@ -715,50 +577,49 @@ function applyUV(mesh,faces,tex){
     arr[b]=u0;arr[b+1]=v0;arr[b+2]=u1;arr[b+3]=v0;arr[b+4]=u0;arr[b+5]=v1;arr[b+6]=u1;arr[b+7]=v1;
   });
   mesh.geometry.attributes.uv.needsUpdate=true;
-  mesh.material.map=tex; mesh.material.needsUpdate=true;
+  mesh.material.map=tex;mesh.material.needsUpdate=true;
 }
 
 function update3D(){
-  if(!threeCtx)return;
-  const merged=getMerged();
-  const sc=document.createElement('canvas'); sc.width=64;sc.height=64;
-  sc.getContext('2d').putImageData(merged,0,0);
+  if(!T)return;
+  const m2=getMerged();
+  const sc=document.createElement('canvas');sc.width=64;sc.height=64;
+  sc.getContext('2d').putImageData(m2,0,0);
   const tex=new THREE.CanvasTexture(sc);
-  tex.magFilter=THREE.NearestFilter; tex.minFilter=THREE.NearestFilter;
-  const m=threeCtx.meshes;
-  applyUV(m.head,   [[16,8,8,8],[0,8,8,8],[8,0,8,8],[16,0,8,8],[8,8,8,8],[24,8,8,8]],tex);
-  applyUV(m.hat,    [[48,8,8,8],[32,8,8,8],[40,0,8,8],[48,0,8,8],[40,8,8,8],[56,8,8,8]],tex);
-  applyUV(m.body,   [[28,20,4,12],[16,20,4,12],[20,16,8,4],[28,16,8,4],[20,20,8,12],[32,20,8,12]],tex);
-  applyUV(m.jacket, [[28,36,4,12],[16,36,4,12],[20,32,8,4],[28,32,8,4],[20,36,8,12],[32,36,8,12]],tex);
-  applyUV(m.rarm,   [[48,20,4,12],[40,20,4,12],[44,16,4,4],[48,16,4,4],[44,20,4,12],[52,20,4,12]],tex);
-  applyUV(m.rarm2,  [[48,36,4,12],[40,36,4,12],[44,32,4,4],[48,32,4,4],[44,36,4,12],[52,36,4,12]],tex);
-  applyUV(m.larm,   [[40,52,4,12],[32,52,4,12],[36,48,4,4],[40,48,4,4],[36,52,4,12],[44,52,4,12]],tex);
-  applyUV(m.larm2,  [[56,52,4,12],[48,52,4,12],[52,48,4,4],[56,48,4,4],[52,52,4,12],[60,52,4,12]],tex);
-  applyUV(m.rleg,   [[8,20,4,12],[0,20,4,12],[4,16,4,4],[8,16,4,4],[4,20,4,12],[12,20,4,12]],tex);
-  applyUV(m.rleg2,  [[8,36,4,12],[0,36,4,12],[4,32,4,4],[8,32,4,4],[4,36,4,12],[12,36,4,12]],tex);
-  applyUV(m.lleg,   [[24,52,4,12],[16,52,4,12],[20,48,4,4],[24,48,4,4],[20,52,4,12],[28,52,4,12]],tex);
-  applyUV(m.lleg2,  [[8,52,4,12],[0,52,4,12],[4,48,4,4],[8,48,4,4],[4,52,4,12],[12,52,4,12]],tex);
-  PARTS.forEach(p=>{ if(m[p.id]) m[p.id].visible=S.vis[p.id]&&!!S.layers[p.id]; });
+  tex.magFilter=THREE.NearestFilter;tex.minFilter=THREE.NearestFilter;
+  const M=T.M;
+  uvApply(M.head,   [[16,8,8,8],[0,8,8,8],[8,0,8,8],[16,0,8,8],[8,8,8,8],[24,8,8,8]],tex);
+  uvApply(M.hat,    [[48,8,8,8],[32,8,8,8],[40,0,8,8],[48,0,8,8],[40,8,8,8],[56,8,8,8]],tex);
+  uvApply(M.body,   [[28,20,4,12],[16,20,4,12],[20,16,8,4],[28,16,8,4],[20,20,8,12],[32,20,8,12]],tex);
+  uvApply(M.jacket, [[28,36,4,12],[16,36,4,12],[20,32,8,4],[28,32,8,4],[20,36,8,12],[32,36,8,12]],tex);
+  uvApply(M.rarm,   [[48,20,4,12],[40,20,4,12],[44,16,4,4],[48,16,4,4],[44,20,4,12],[52,20,4,12]],tex);
+  uvApply(M.rarm2,  [[48,36,4,12],[40,36,4,12],[44,32,4,4],[48,32,4,4],[44,36,4,12],[52,36,4,12]],tex);
+  uvApply(M.larm,   [[40,52,4,12],[32,52,4,12],[36,48,4,4],[40,48,4,4],[36,52,4,12],[44,52,4,12]],tex);
+  uvApply(M.larm2,  [[56,52,4,12],[48,52,4,12],[52,48,4,4],[56,48,4,4],[52,52,4,12],[60,52,4,12]],tex);
+  uvApply(M.rleg,   [[8,20,4,12],[0,20,4,12],[4,16,4,4],[8,16,4,4],[4,20,4,12],[12,20,4,12]],tex);
+  uvApply(M.rleg2,  [[8,36,4,12],[0,36,4,12],[4,32,4,4],[8,32,4,4],[4,36,4,12],[12,36,4,12]],tex);
+  uvApply(M.lleg,   [[24,52,4,12],[16,52,4,12],[20,48,4,4],[24,48,4,4],[20,52,4,12],[28,52,4,12]],tex);
+  uvApply(M.lleg2,  [[8,52,4,12],[0,52,4,12],[4,48,4,4],[8,48,4,4],[4,52,4,12],[12,52,4,12]],tex);
+  PARTS.forEach(p=>{if(M[p.id])M[p.id].visible=S.vis[p.id]&&!!S.layers[p.id];});
 }
 
-// ═══════════════════════════════════════════════════════════
-// MERGE LAYERS
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
+// MERGE
+// ════════════════════════════════════════
 function getMerged(){
-  const out=new ImageData(64,64);
-  const d=out.data;
+  const out=new ImageData(64,64),d=out.data;
   PARTS.forEach(p=>{
-    if(!S.vis[p.id]) return;
-    const layer=S.layers[p.id]; if(!layer) return;
-    const src=layer.data;
-    [[p.uvF],[p.uvB],[p.uvTop],[p.uvBot],[p.uvR],[p.uvL]].forEach(([uv])=>{
-      if(!uv) return;
-      const [ux,uy,uw,uh]=uv;
-      for(let r=0;r<uh;r++) for(let c=0;c<uw;c++){
+    if(!S.vis[p.id])return;
+    const L=S.layers[p.id];if(!L)return;
+    const src=L.data;
+    [p.uvF,p.uvB,p.uvT,p.uvBt,p.uvR,p.uvL].forEach(uv=>{
+      if(!uv)return;
+      const[ux,uy,uw,uh]=uv;
+      for(let r=0;r<uh;r++)for(let c=0;c<uw;c++){
         const i=((uy+r)*64+(ux+c))*4;
-        const sa=src[i+3]; if(sa===0)continue;
-        const da=d[i+3], oa=sa+da*(1-sa/255);
-        d[i]  =(src[i]  *sa/255+d[i]  *(da/255)*(1-sa/255))/(oa/255||1);
+        const sa=src[i+3];if(!sa)continue;
+        const da=d[i+3],oa=sa+da*(1-sa/255);
+        d[i]=(src[i]*sa/255+d[i]*(da/255)*(1-sa/255))/(oa/255||1);
         d[i+1]=(src[i+1]*sa/255+d[i+1]*(da/255)*(1-sa/255))/(oa/255||1);
         d[i+2]=(src[i+2]*sa/255+d[i+2]*(da/255)*(1-sa/255))/(oa/255||1);
         d[i+3]=oa;
@@ -768,38 +629,38 @@ function getMerged(){
   return out;
 }
 
-// ═══════════════════════════════════════════════════════════
-// 2D RENDER
-// ═══════════════════════════════════════════════════════════
-function exRgn(img,x,y,w,h){
+// ════════════════════════════════════════
+// 2D PREVIEW RENDER
+// ════════════════════════════════════════
+function exR(img,x,y,w,h){
   const rows=[],s=img.data;
   for(let r=0;r<h;r++){const row=[];for(let c=0;c<w;c++){const i=((y+r)*64+(x+c))*4;row.push([s[i],s[i+1],s[i+2],s[i+3]]);}rows.push(row);}
   return rows;
 }
-function drawPx(ctx,px,dx,dy,sc,flip=false){
+function dpx(ctx,px,dx,dy,sc,flip=false){
   const h=px.length,w=px[0]?.length||0;
-  for(let r=0;r<h;r++) for(let c=0;c<w;c++){
+  for(let r=0;r<h;r++)for(let c=0;c<w;c++){
     const sc2=flip?w-1-c:c;
-    const[rr,gg,bb,aa]=px[r][sc2];
-    if(aa<8)continue;
+    const[rr,gg,bb,aa]=px[r][sc2];if(aa<8)continue;
     ctx.fillStyle=`rgba(${rr},${gg},${bb},${aa/255})`;
     ctx.fillRect(dx+c*sc,dy+r*sc,sc,sc);
   }
 }
 
 function render2D(){
-  const canvas=document.getElementById('canvas2d');
-  const ctx=canvas.getContext('2d');
+  const cv=document.getElementById('c2d');
+  const ctx=cv.getContext('2d');
   ctx.imageSmoothingEnabled=false;
-  const hasAny=Object.keys(S.layers).length>0;
-  document.getElementById('emptyState').style.display=hasAny?'none':'flex';
-  if(!hasAny){canvas.width=10;canvas.height=10;return;}
-  const sc=S.scale, back=S.view==='back';
-  if(S.view==='uv'){renderUV(canvas,ctx,sc);return;}
-  const mg=sc*2,hW=8,hH=8,bW=8,bH=12,aW=4,aH=12,lW=4,lH=12;
-  canvas.width=(aW+bW+aW)*sc+mg*2;
-  canvas.height=(hH+bH+lH)*sc+mg*2;
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const any=Object.keys(S.layers).length>0;
+  document.getElementById('empty').style.display=any?'none':'flex';
+  if(!any){cv.width=10;cv.height=10;return;}
+  const sc=S.scale,back=S.back;
+  if(S.back===undefined||S.view==='uv'){/* skip */}
+  const mg=sc*2;
+  const hW=8,hH=8,bW=8,bH=12,aW=4,aH=12,lW=4,lH=12;
+  cv.width=(aW+bW+aW)*sc+mg*2;
+  cv.height=(hH+bH+lH)*sc+mg*2;
+  ctx.clearRect(0,0,cv.width,cv.height);
   const m=getMerged();
   const headX=mg+aW*sc,headY=mg;
   const bodyX=mg+aW*sc,bodyY=headY+hH*sc;
@@ -807,664 +668,547 @@ function render2D(){
   const rLX=mg+aW*sc,lLX=mg+(aW+lW)*sc,legY=bodyY+bH*sc;
   const pp={};
   if(!back){
-    drawPx(ctx,exRgn(m,8,8,8,8),headX,headY,sc);
-    drawPx(ctx,exRgn(m,40,8,8,8),headX,headY,sc);
-    drawPx(ctx,exRgn(m,20,20,8,12),bodyX,bodyY,sc);
-    drawPx(ctx,exRgn(m,20,36,8,12),bodyX,bodyY,sc);
-    drawPx(ctx,exRgn(m,44,20,4,12),rAX,armY,sc);
-    drawPx(ctx,exRgn(m,44,36,4,12),rAX,armY,sc);
-    drawPx(ctx,exRgn(m,36,52,4,12),lAX,armY,sc);
-    drawPx(ctx,exRgn(m,52,52,4,12),lAX,armY,sc);
-    drawPx(ctx,exRgn(m,4,20,4,12),rLX,legY,sc);
-    drawPx(ctx,exRgn(m,4,36,4,12),rLX,legY,sc);
-    drawPx(ctx,exRgn(m,20,52,4,12),lLX,legY,sc);
-    drawPx(ctx,exRgn(m,4,52,4,12),lLX,legY,sc);
-    pp.head={x:headX,y:headY,w:hW*sc,h:hH*sc};
-    pp.body={x:bodyX,y:bodyY,w:bW*sc,h:bH*sc};
-    pp.rarm={x:rAX,y:armY,w:aW*sc,h:aH*sc};
-    pp.larm={x:lAX,y:armY,w:aW*sc,h:aH*sc};
-    pp.rleg={x:rLX,y:legY,w:lW*sc,h:lH*sc};
-    pp.lleg={x:lLX,y:legY,w:lW*sc,h:lH*sc};
+    dpx(ctx,exR(m,8,8,8,8),headX,headY,sc);dpx(ctx,exR(m,40,8,8,8),headX,headY,sc);
+    dpx(ctx,exR(m,20,20,8,12),bodyX,bodyY,sc);dpx(ctx,exR(m,20,36,8,12),bodyX,bodyY,sc);
+    dpx(ctx,exR(m,44,20,4,12),rAX,armY,sc);dpx(ctx,exR(m,44,36,4,12),rAX,armY,sc);
+    dpx(ctx,exR(m,36,52,4,12),lAX,armY,sc);dpx(ctx,exR(m,52,52,4,12),lAX,armY,sc);
+    dpx(ctx,exR(m,4,20,4,12),rLX,legY,sc);dpx(ctx,exR(m,4,36,4,12),rLX,legY,sc);
+    dpx(ctx,exR(m,20,52,4,12),lLX,legY,sc);dpx(ctx,exR(m,4,52,4,12),lLX,legY,sc);
+    pp.head={x:headX,y:headY,w:hW*sc,h:hH*sc};pp.body={x:bodyX,y:bodyY,w:bW*sc,h:bH*sc};
+    pp.rarm={x:rAX,y:armY,w:aW*sc,h:aH*sc};pp.larm={x:lAX,y:armY,w:aW*sc,h:aH*sc};
+    pp.rleg={x:rLX,y:legY,w:lW*sc,h:lH*sc};pp.lleg={x:lLX,y:legY,w:lW*sc,h:lH*sc};
   } else {
-    drawPx(ctx,exRgn(m,24,8,8,8),headX,headY,sc,true);
-    drawPx(ctx,exRgn(m,56,8,8,8),headX,headY,sc,true);
-    drawPx(ctx,exRgn(m,32,20,8,12),bodyX,bodyY,sc,true);
-    drawPx(ctx,exRgn(m,32,36,8,12),bodyX,bodyY,sc,true);
-    drawPx(ctx,exRgn(m,52,20,4,12),rAX,armY,sc,true);
-    drawPx(ctx,exRgn(m,44,52,4,12),lAX,armY,sc,true);
-    drawPx(ctx,exRgn(m,12,20,4,12),rLX,legY,sc,true);
-    drawPx(ctx,exRgn(m,28,52,4,12),lLX,legY,sc,true);
+    dpx(ctx,exR(m,24,8,8,8),headX,headY,sc,true);dpx(ctx,exR(m,56,8,8,8),headX,headY,sc,true);
+    dpx(ctx,exR(m,32,20,8,12),bodyX,bodyY,sc,true);dpx(ctx,exR(m,32,36,8,12),bodyX,bodyY,sc,true);
+    dpx(ctx,exR(m,52,20,4,12),rAX,armY,sc,true);dpx(ctx,exR(m,44,52,4,12),lAX,armY,sc,true);
+    dpx(ctx,exR(m,12,20,4,12),rLX,legY,sc,true);dpx(ctx,exR(m,28,52,4,12),lLX,legY,sc,true);
   }
   if(S.grid){
-    ctx.strokeStyle='rgba(80,200,184,0.2)';ctx.lineWidth=0.5;
-    for(let x=0;x<=canvas.width;x+=sc){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
-    for(let y=0;y<=canvas.height;y+=sc){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}
+    ctx.strokeStyle='rgba(68,184,160,.16)';ctx.lineWidth=.5;
+    for(let x=0;x<=cv.width;x+=sc){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,cv.height);ctx.stroke();}
+    for(let y=0;y<=cv.height;y+=sc){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cv.width,y);ctx.stroke();}
   }
-  if(S.overlay&&!back){
-    const oc={head:'#7ec87e',body:'#50c8b8',rarm:'#f5a050',larm:'#f5a050',rleg:'#f5e050',lleg:'#f5e050'};
-    Object.entries(pp).forEach(([id,pos])=>{
-      ctx.strokeStyle=oc[id]||'#aaa';ctx.lineWidth=2;
-      ctx.strokeRect(pos.x+1,pos.y+1,pos.w-2,pos.h-2);
-    });
+  if(S.ovl&&!back){
+    const oc={head:'#6bc070',body:'#44b8a0',rarm:'#f0a040',larm:'#f0a040',rleg:'#f0d040',lleg:'#f0d040'};
+    Object.entries(pp).forEach(([id,pos])=>{ctx.strokeStyle=oc[id]||'#aaa';ctx.lineWidth=2;ctx.strokeRect(pos.x+1,pos.y+1,pos.w-2,pos.h-2);});
   }
-  // Highlight selected
-  const baseId=S.selPart.replace('2','').replace('hat','head').replace('jacket','body');
-  const sp=pp[S.selPart]||pp[baseId];
-  if(sp&&!back){
-    ctx.strokeStyle='rgba(80,200,184,0.9)';ctx.lineWidth=2;
-    ctx.setLineDash([4,3]);ctx.strokeRect(sp.x,sp.y,sp.w,sp.h);ctx.setLineDash([]);
-  }
-  // Click-to-select on 2D canvas
-  canvas._pp = pp;
+  const bid=S.sel.replace('2','').replace('hat','head').replace('jacket','body');
+  const sp=pp[S.sel]||pp[bid];
+  if(sp&&!back){ctx.strokeStyle='rgba(68,184,160,.9)';ctx.lineWidth=2.5;ctx.setLineDash([4,3]);ctx.strokeRect(sp.x,sp.y,sp.w,sp.h);ctx.setLineDash([]);}
+  cv._pp=pp;
 }
 
-function renderUV(canvas,ctx,sc){
-  canvas.width=64*sc;canvas.height=64*sc;
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  const m=getMerged(),s=m.data;
-  for(let y=0;y<64;y++) for(let x=0;x<64;x++){
-    const i=(y*64+x)*4;if(s[i+3]<8)continue;
-    ctx.fillStyle=`rgba(${s[i]},${s[i+1]},${s[i+2]},${s[i+3]/255})`;
-    ctx.fillRect(x*sc,y*sc,sc,sc);
-  }
-  const uvC=[
-    ['#7ec87e',[8,8,8,8],'HEAD'],['#7ec87e',[40,8,8,8],'HAT'],
-    ['#50c8b8',[20,20,8,12],'BODY'],['#50c8b8',[20,36,8,12],'JKT'],
-    ['#f5a050',[44,20,4,12],'RARM'],['#f5a050',[44,36,4,12],'RARM2'],
-    ['#f5a050',[36,52,4,12],'LARM'],['#f5a050',[52,52,4,12],'LARM2'],
-    ['#f5e050',[4,20,4,12],'RLEG'],['#f5e050',[4,36,4,12],'RLEG2'],
-    ['#f5e050',[20,52,4,12],'LLEG'],['#f5e050',[4,52,4,12],'LLEG2'],
-  ];
-  uvC.forEach(([col,[x,y,w,h],lbl])=>{
-    ctx.strokeStyle=col;ctx.lineWidth=1;ctx.strokeRect(x*sc,y*sc,w*sc,h*sc);
-    ctx.fillStyle=col;ctx.font=`bold ${Math.max(6,sc-2)}px Nunito`;ctx.fillText(lbl,x*sc+2,y*sc+Math.min(sc,11));
-  });
+// ════════════════════════════════════════
+// PIXEL EDIT CANVAS (center, big)
+// ════════════════════════════════════════
+function getUVForFace(partId, face) {
+  const p = PARTS.find(x=>x.id===partId);
+  if(!p) return null;
+  const prop = FACE_UV[face] || 'uvF';
+  return p[prop] || p.uvF;
 }
 
-function render(){
-  if(S.view==='3d'){if(threeCtx)update3D();}
-  else render2D();
-  updateAllThumbs();
-  updatePixelEditor();
-}
+function renderEditCanvas(){
+  const p=PARTS.find(x=>x.id===S.sel);
+  if(!p) return;
+  const uv=getUVForFace(S.sel, S.face);
+  if(!uv) return;
+  const [ux,uy,uw,uh]=uv;
 
-// ═══════════════════════════════════════════════════════════
-// PIXEL EDITOR (real-time editing)
-// ═══════════════════════════════════════════════════════════
-let isDrawing=false;
-let editHistStack=[];
+  const cont=document.getElementById('cc');
+  const cW=cont.clientWidth-20, cH=cont.clientHeight-20;
+  // Fill the center area: compute pixel size
+  const pxW=Math.floor(cW/uw);
+  const pxH=Math.floor(cH/uh);
+  const px=Math.max(6, Math.min(pxW, pxH, 40));  // pixel size
 
-function updatePixelEditor(){
-  const part=PARTS.find(p=>p.id===S.selPart);
-  if(!part)return;
-  document.getElementById('editorPartName').textContent=part.icon+' '+part.name+' 편집';
-  const canvas=document.getElementById('pixelCanvas');
-  const ctx=canvas.getContext('2d');
+  const cv=document.getElementById('cEdit');
+  cv.width=uw; cv.height=uh;
+  cv.style.width=(uw*px)+'px';
+  cv.style.height=(uh*px)+'px';
+
+  // Update checker bg size
+  const ech=document.getElementById('editChecker');
+  ech.style.width=(uw*px)+'px';
+  ech.style.height=(uh*px)+'px';
+
+  // Store px size for mouse events
+  cv._px=px; cv._uv=uv;
+
+  const ctx=cv.getContext('2d');
   ctx.imageSmoothingEnabled=false;
-
-  // Resize canvas to match part UV
-  const [ux,uy,uw,uh]=part.uvF;
-  canvas.width=uw; canvas.height=uh;
-  // Display size (max 128px wide)
-  const dispW=Math.min(160, uw*12);
-  const dispH=Math.round(dispW/uw*uh);
-  canvas.style.width=dispW+'px';
-  canvas.style.height=dispH+'px';
-
   ctx.clearRect(0,0,uw,uh);
-  const layer=S.layers[S.selPart];
-  if(layer){
-    const src=layer.data;
-    for(let r=0;r<uh;r++) for(let c=0;c<uw;c++){
-      const i=((uy+r)*64+(ux+c))*4;
-      if(src[i+3]<8)continue;
-      ctx.fillStyle=`rgba(${src[i]},${src[i+1]},${src[i+2]},${src[i+3]/255})`;
-      ctx.fillRect(c,r,1,1);
-    }
-  }
-}
 
-function getPixelPos(canvas,e){
-  const rect=canvas.getBoundingClientRect();
-  const part=PARTS.find(p=>p.id===S.selPart);
-  const [,,uw,uh]=part.uvF;
-  const x=Math.floor((e.clientX-rect.left)/rect.width*uw);
-  const y=Math.floor((e.clientY-rect.top)/rect.height*uh);
-  return {x:Math.max(0,Math.min(uw-1,x)), y:Math.max(0,Math.min(uh-1,y))};
-}
-
-function ensureLayer(partId){
-  if(!S.layers[partId]){
-    S.layers[partId]=new ImageData(64,64);
-  }
-}
-
-function paintPixel(px,py){
-  const part=PARTS.find(p=>p.id===S.selPart);
-  const [ux,uy]=part.uvF;
-  ensureLayer(S.selPart);
-  const data=S.layers[S.selPart].data;
-  const i=((uy+py)*64+(ux+px))*4;
-  if(S.tool==='erase'){
-    data[i]=data[i+1]=data[i+2]=data[i+3]=0;
-  } else if(S.tool==='pick'){
-    if(data[i+3]>8) setColor(`#${data[i].toString(16).padStart(2,'0')}${data[i+1].toString(16).padStart(2,'0')}${data[i+2].toString(16).padStart(2,'0')}`);
-    S.tool='draw'; document.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('active'));
-    document.getElementById('tb_draw')?.classList.add('active');
-    return;
-  } else {
-    const hex=curColor.replace('#','');
-    data[i]=parseInt(hex.slice(0,2),16);
-    data[i+1]=parseInt(hex.slice(2,4),16);
-    data[i+2]=parseInt(hex.slice(4,6),16);
-    data[i+3]=255;
-  }
-}
-
-function fillPixels(startX,startY){
-  const part=PARTS.find(p=>p.id===S.selPart);
-  const [ux,uy,uw,uh]=part.uvF;
-  ensureLayer(S.selPart);
-  const data=S.layers[S.selPart].data;
-  const si=((uy+startY)*64+(ux+startX))*4;
-  const [tr,tg,tb,ta]=[data[si],data[si+1],data[si+2],data[si+3]];
-  const hex=curColor.replace('#','');
-  const [fr,fg,fb]=[parseInt(hex.slice(0,2),16),parseInt(hex.slice(2,4),16),parseInt(hex.slice(4,6),16)];
-  if(tr===fr&&tg===fg&&tb===fb)return;
-  const queue=[[startX,startY]];
-  const visited=new Set();
-  while(queue.length){
-    const [cx,cy]=queue.shift();
-    if(cx<0||cx>=uw||cy<0||cy>=uh)continue;
-    const key=`${cx},${cy}`;
-    if(visited.has(key))continue;
-    visited.add(key);
-    const idx=((uy+cy)*64+(ux+cx))*4;
-    if(data[idx]!==tr||data[idx+1]!==tg||data[idx+2]!==tb||data[idx+3]!==ta)continue;
-    data[idx]=fr;data[idx+1]=fg;data[idx+2]=fb;data[idx+3]=255;
-    queue.push([cx+1,cy],[cx-1,cy],[cx,cy+1],[cx,cy-1]);
-  }
-}
-
-// Pixel canvas events
-const pCanvas=document.getElementById('pixelCanvas');
-pCanvas.addEventListener('mousedown',e=>{
-  isDrawing=true;
-  saveEditHistory();
-  const pos=getPixelPos(pCanvas,e);
-  if(S.tool==='fill') fillPixels(pos.x,pos.y);
-  else paintPixel(pos.x,pos.y);
-  updatePixelEditor(); render();
-});
-pCanvas.addEventListener('mousemove',e=>{
-  if(!isDrawing)return;
-  if(S.tool==='fill')return;
-  const pos=getPixelPos(pCanvas,e);
-  paintPixel(pos.x,pos.y);
-  updatePixelEditor(); render();
-});
-window.addEventListener('mouseup',()=>isDrawing=false);
-
-function saveEditHistory(){
-  const layer=S.layers[S.selPart];
-  if(layer){
-    const copy=new ImageData(new Uint8ClampedArray(layer.data),64,64);
-    editHistStack.push({partId:S.selPart,data:copy});
-    if(editHistStack.length>20)editHistStack.shift();
-  }
-}
-
-function undoEdit(){
-  const last=editHistStack.filter(h=>h.partId===S.selPart).pop();
-  if(!last){toast('되돌릴 내용이 없어요');return;}
-  editHistStack=editHistStack.filter(h=>h!==last);
-  S.layers[S.selPart]=last.data;
-  updatePixelEditor(); render(); toast('↩️ 되돌렸어요');
-}
-
-function mirrorEdit(){
-  const part=PARTS.find(p=>p.id===S.selPart);
-  const [ux,uy,uw,uh]=part.uvF;
-  ensureLayer(S.selPart);
-  saveEditHistory();
-  const data=S.layers[S.selPart].data;
-  for(let r=0;r<uh;r++){
-    for(let c=0;c<Math.floor(uw/2);c++){
-      const i1=((uy+r)*64+(ux+c))*4;
-      const i2=((uy+r)*64+(ux+uw-1-c))*4;
-      for(let k=0;k<4;k++){const t=data[i1+k];data[i1+k]=data[i2+k];data[i2+k]=t;}
-    }
-  }
-  updatePixelEditor(); render(); toast('↔️ 좌우반전!');
-}
-
-function clearEditing(){
-  if(!S.layers[S.selPart])return;
-  saveEditHistory();
-  const part=PARTS.find(p=>p.id===S.selPart);
-  const [ux,uy,uw,uh]=part.uvF;
-  const data=S.layers[S.selPart].data;
+  const L=S.layers[S.sel];
+  if(!L) return;
+  const src=L.data;
   for(let r=0;r<uh;r++) for(let c=0;c<uw;c++){
     const i=((uy+r)*64+(ux+c))*4;
-    data[i]=data[i+1]=data[i+2]=data[i+3]=0;
+    if(src[i+3]<8)continue;
+    ctx.fillStyle=`rgba(${src[i]},${src[i+1]},${src[i+2]},${src[i+3]/255})`;
+    ctx.fillRect(c,r,1,1);
   }
-  updatePixelEditor(); render(); toast('🧹 지웠어요');
+
+  // Grid overlay on edit canvas
+  if(S.grid){
+    ctx.strokeStyle='rgba(68,184,160,.3)'; ctx.lineWidth=0.1;
+    for(let c=0;c<=uw;c++){ctx.beginPath();ctx.moveTo(c,0);ctx.lineTo(c,uh);ctx.stroke();}
+    for(let r=0;r<=uh;r++){ctx.beginPath();ctx.moveTo(0,r);ctx.lineTo(uw,r);ctx.stroke();}
+  }
+
+  // Update face info
+  document.getElementById('faceInfo').textContent=
+    `${p.nm} ${S.face === 'front'?'앞':S.face==='back'?'뒤':S.face==='right'?'오른쪽':S.face==='left'?'왼쪽':S.face==='top'?'위':'아래'} (${uw}×${uh}px) | UV:[${ux},${uy}]`;
 }
 
-// ═══════════════════════════════════════════════════════════
+// Edit canvas mouse events
+(()=>{
+  const cv=document.getElementById('cEdit');
+
+  function getPos(e){
+    const uv=cv._uv; if(!uv) return null;
+    const [,,uw,uh]=uv;
+    const r=cv.getBoundingClientRect();
+    const x=Math.floor((e.clientX-r.left)/r.width*uw);
+    const y=Math.floor((e.clientY-r.top)/r.height*uh);
+    return {x:Math.max(0,Math.min(uw-1,x)), y:Math.max(0,Math.min(uh-1,y))};
+  }
+
+  function paint(pos){
+    const uv=cv._uv; if(!uv||!pos) return;
+    const [ux,uy]=uv;
+    ensureL(S.sel);
+    const d=S.layers[S.sel].data;
+    const i=((uy+pos.y)*64+(ux+pos.x))*4;
+    if(S.tool==='erase'){d[i]=d[i+1]=d[i+2]=d[i+3]=0;}
+    else if(S.tool==='pick'){
+      if(d[i+3]>8){
+        const h=`#${d[i].toString(16).padStart(2,'0')}${d[i+1].toString(16).padStart(2,'0')}${d[i+2].toString(16).padStart(2,'0')}`;
+        setCol(h);
+      }
+      setTool('draw',document.getElementById('tb_draw')); return;
+    } else {
+      const h=curCol.replace('#','');
+      d[i]=parseInt(h.slice(0,2),16);d[i+1]=parseInt(h.slice(2,4),16);
+      d[i+2]=parseInt(h.slice(4,6),16);d[i+3]=255;
+    }
+  }
+
+  function fill(pos){
+    const uv=cv._uv; if(!uv||!pos) return;
+    const [ux,uy,uw,uh]=uv;
+    ensureL(S.sel);
+    const d=S.layers[S.sel].data;
+    const si=((uy+pos.y)*64+(ux+pos.x))*4;
+    const [tr,tg,tb,ta]=[d[si],d[si+1],d[si+2],d[si+3]];
+    const h=curCol.replace('#','');
+    const [fr,fg,fb]=[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];
+    if(tr===fr&&tg===fg&&tb===fb)return;
+    const Q=[[pos.x,pos.y]],V=new Set();
+    while(Q.length){
+      const[cx,cy]=Q.shift();
+      if(cx<0||cx>=uw||cy<0||cy>=uh)continue;
+      const k=`${cx},${cy}`;if(V.has(k))continue;V.add(k);
+      const idx=((uy+cy)*64+(ux+cx))*4;
+      if(d[idx]!==tr||d[idx+1]!==tg||d[idx+2]!==tb||d[idx+3]!==ta)continue;
+      d[idx]=fr;d[idx+1]=fg;d[idx+2]=fb;d[idx+3]=255;
+      Q.push([cx+1,cy],[cx-1,cy],[cx,cy+1],[cx,cy-1]);
+    }
+  }
+
+  cv.addEventListener('mousedown',e=>{
+    if(S.mode!=='edit')return;
+    drawing=true; saveH();
+    const pos=getPos(e);
+    if(S.tool==='fill') fill(pos);
+    else paint(pos);
+    renderEditCanvas(); render2D(); updateAllThumbs();
+    // Show coords
+    if(pos) document.getElementById('pxInfo').textContent=`X:${pos.x} Y:${pos.y}`;
+  });
+  cv.addEventListener('mousemove',e=>{
+    if(S.mode!=='edit'){return;}
+    const pos=getPos(e);
+    if(pos) document.getElementById('pxInfo').textContent=`X:${pos.x} Y:${pos.y}`;
+    if(!drawing||S.tool==='fill')return;
+    paint(pos);
+    renderEditCanvas(); render2D(); updateAllThumbs();
+  });
+  cv.addEventListener('mouseleave',()=>{ document.getElementById('pxInfo').textContent=''; });
+  window.addEventListener('mouseup',()=>drawing=false);
+})();
+
+// ════════════════════════════════════════
+// MODE MANAGEMENT
+// ════════════════════════════════════════
+function setMode(mode, btn){
+  S.mode=mode;
+  document.querySelectorAll('.vbtn').forEach(b=>b.classList.remove('active','edit-mode'));
+  btn.classList.add('active');
+  if(mode==='edit') btn.classList.add('edit-mode');
+
+  const c2=document.getElementById('c2d');
+  const cE=document.getElementById('cEdit');
+  const c3=document.getElementById('c3d');
+  const faceBar=document.getElementById('faceBar');
+  const ech=document.getElementById('editChecker');
+  const pxi=document.getElementById('pxInfo');
+  const hint=document.getElementById('hint3d');
+  const vbBack=document.getElementById('vbBack');
+
+  // Reset all
+  c2.style.display='none'; cE.style.display='none';
+  c3.style.display='none'; faceBar.classList.remove('show');
+  ech.classList.remove('show'); hint.classList.remove('on');
+  pxi.classList.remove('show'); vbBack.style.display='none';
+
+  if(mode==='preview'){
+    c2.style.display='block'; vbBack.style.display='block';
+    render2D();
+  } else if(mode==='edit'){
+    cE.style.display='block'; faceBar.classList.add('show');
+    ech.classList.add('show'); pxi.classList.add('show');
+    renderEditCanvas();
+  } else if(mode==='3d'){
+    c3.style.display='block'; hint.classList.add('on');
+    if(!T) init3D();
+    update3D(); T.loop();
+  }
+}
+
+function setFace(face, btn){
+  S.face=face;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderEditCanvas();
+}
+
+function toggleBack(btn){
+  S.back=!S.back;
+  btn.textContent=S.back?'뒤→앞':'앞→뒤';
+  btn.classList.toggle('active',S.back);
+  render2D();
+}
+
+function toggleGrid(btn){S.grid=!S.grid;btn.classList.toggle('active',S.grid);if(S.mode==='edit')renderEditCanvas();else if(S.mode==='preview')render2D();}
+function toggleOvl(btn){S.ovl=!S.ovl;btn.classList.toggle('active',S.ovl);if(S.mode==='preview')render2D();}
+function zoom(d){S.scale=Math.max(2,Math.min(12,S.scale+d));document.getElementById('zLbl').textContent='×'+S.scale;if(S.mode==='preview')render2D();}
+
+// ════════════════════════════════════════
 // TOOLS & PALETTE
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
 function setTool(t,btn){
   S.tool=t;
-  document.querySelectorAll('.tool-btn').forEach(b=>{
-    if(['tb_draw','tb_fill','tb_erase','tb_pick'].includes(b.id))b.classList.remove('active');
-  });
+  ['tb_draw','tb_fill','tb_erase','tb_pick'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
   btn.classList.add('active');
 }
-
-function setColor(hex){
+function setCol(hex){
   if(!/^#[0-9a-fA-F]{6}$/.test(hex))return;
-  curColor=hex;
-  document.getElementById('curColorBox').style.background=hex;
-  document.getElementById('colorHex').value=hex;
-  document.getElementById('colorPicker').value=hex;
-  document.querySelectorAll('.pal-color').forEach(el=>el.classList.toggle('selected',el.dataset.color===hex));
+  curCol=hex;
+  document.getElementById('ccBox').style.background=hex;
+  document.getElementById('cHex').value=hex;
+  document.getElementById('cpick').value=hex;
+  document.querySelectorAll('.pc').forEach(el=>el.classList.toggle('sel',el.dataset.c===hex));
 }
-
-function buildPalette(){
-  const grid=document.getElementById('paletteGrid');
-  grid.innerHTML='';
-  AC_PALETTE.forEach(col=>{
+function buildPal(){
+  const g=document.getElementById('palGrid');g.innerHTML='';
+  PAL.forEach(c=>{
     const el=document.createElement('div');
-    el.className='pal-color';
-    el.style.background=col;
-    el.dataset.color=col;
-    el.title=col;
-    el.onclick=()=>setColor(col);
-    grid.appendChild(el);
+    el.className='pc';el.style.background=c;el.dataset.c=c;el.title=c;
+    el.onclick=()=>setCol(c);g.appendChild(el);
   });
 }
-
-function addToPalette(hex){
-  if(AC_PALETTE.includes(hex)){toast('이미 팔레트에 있어요!');return;}
-  AC_PALETTE.unshift(hex);
-  if(AC_PALETTE.length>64)AC_PALETTE.pop();
-  buildPalette(); setColor(hex); toast('🎨 팔레트에 추가됐어요!');
+function addPal(hex){
+  if(PAL.includes(hex)){toast('이미 팔레트에 있어요');return;}
+  PAL.unshift(hex);if(PAL.length>64)PAL.pop();buildPal();setCol(hex);toast('🎨 팔레트에 추가!');
 }
 
-// ═══════════════════════════════════════════════════════════
-// PATTERN PRESETS
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
+// EDIT HELPERS
+// ════════════════════════════════════════
+function ensureL(id){if(!S.layers[id])S.layers[id]=new ImageData(64,64);}
+
+function saveH(){
+  const L=S.layers[S.sel];
+  if(L){const cp=new ImageData(new Uint8ClampedArray(L.data),64,64);S.hist.push({id:S.sel,data:cp});if(S.hist.length>40)S.hist.shift();}
+}
+
+function undo(){
+  const idx=S.hist.map((h,i)=>h.id===S.sel?i:-1).filter(i=>i>=0).pop();
+  if(idx==null){toast('되돌릴 내용 없음');return;}
+  S.layers[S.sel]=S.hist[idx].data;S.hist.splice(idx,1);
+  renderEditCanvas();render2D();updateAllThumbs();toast('↩️ 되돌렸어요');
+}
+
+function flipH(){
+  const uv=getUVForFace(S.sel,S.face);if(!uv)return;
+  const[ux,uy,uw,uh]=uv;
+  ensureL(S.sel);saveH();
+  const d=S.layers[S.sel].data;
+  for(let r=0;r<uh;r++) for(let c=0;c<Math.floor(uw/2);c++){
+    const i1=((uy+r)*64+(ux+c))*4,i2=((uy+r)*64+(ux+uw-1-c))*4;
+    for(let k=0;k<4;k++){const t=d[i1+k];d[i1+k]=d[i2+k];d[i2+k]=t;}
+  }
+  renderEditCanvas();render2D();toast('↔️ 좌우반전!');
+}
+
+function clearPart(){
+  const uv=getUVForFace(S.sel,S.face);if(!uv)return;
+  if(!S.layers[S.sel])return;
+  saveH();
+  const[ux,uy,uw,uh]=uv,d=S.layers[S.sel].data;
+  for(let r=0;r<uh;r++) for(let c=0;c<uw;c++){const i=((uy+r)*64+(ux+c))*4;d[i]=d[i+1]=d[i+2]=d[i+3]=0;}
+  renderEditCanvas();render2D();updateAllThumbs();toast('🧹 지웠어요');
+}
+
+// Keyboard shortcuts
+window.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+  if(e.key==='p'||e.key==='P') setTool('draw',document.getElementById('tb_draw'));
+  if(e.key==='f'||e.key==='F') setTool('fill',document.getElementById('tb_fill'));
+  if(e.key==='e'||e.key==='E') setTool('erase',document.getElementById('tb_erase'));
+  if(e.key==='i'||e.key==='I') setTool('pick',document.getElementById('tb_pick'));
+  if((e.ctrlKey||e.metaKey)&&e.key==='z'){e.preventDefault();undo();}
+});
+
+// ════════════════════════════════════════
+// PRESETS
+// ════════════════════════════════════════
+let PRESETS=JSON.parse(localStorage.getItem('si3_pres')||'[]');
+
 function savePreset(){
-  const part=PARTS.find(p=>p.id===S.selPart);
-  const layer=S.layers[S.selPart];
-  if(!layer){toast('편집 내용이 없어요');return;}
-  const name=prompt('패턴 이름을 입력해주세요','내 패턴');
-  if(!name)return;
-  const [ux,uy,uw,uh]=part.uvF;
-  const src=layer.data;
-  // Extract part as pixel array
+  const p=PARTS.find(x=>x.id===S.sel);
+  const uv=getUVForFace(S.sel,S.face);
+  const L=S.layers[S.sel];
+  if(!L||!uv){toast('편집 내용이 없어요');return;}
+  const name=prompt('패턴 이름','내 패턴');if(!name)return;
+  const[ux,uy,uw,uh]=uv,src=L.data;
   const pixels=[];
   for(let r=0;r<uh;r++){const row=[];for(let c=0;c<uw;c++){const i=((uy+r)*64+(ux+c))*4;row.push([src[i],src[i+1],src[i+2],src[i+3]]);}pixels.push(row);}
-  S.presets.push({id:Date.now(),name,partId:S.selPart,w:uw,h:uh,pixels});
-  localStorage.setItem('skinIslandPresets',JSON.stringify(S.presets));
-  buildPresets(); toast('⭐ 패턴 저장됐어요!');
+  PRESETS.push({id:Date.now(),name,partId:S.sel,face:S.face,w:uw,h:uh,pixels});
+  localStorage.setItem('si3_pres',JSON.stringify(PRESETS));
+  buildPresets();toast('⭐ 패턴 저장됨!');
 }
 
-function applyPreset(preset){
-  const part=PARTS.find(p=>p.id===S.selPart);
-  const [ux,uy,uw,uh]=part.uvF;
-  // Match size or scale
-  const pw=preset.w, ph=preset.h;
-  ensureLayer(S.selPart);
-  saveEditHistory();
-  const data=S.layers[S.selPart].data;
+function applyPreset(pr){
+  const uv=getUVForFace(S.sel,S.face);if(!uv)return;
+  const[ux,uy,uw,uh]=uv;
+  ensureL(S.sel);saveH();
+  const d=S.layers[S.sel].data;
   for(let r=0;r<uh;r++) for(let c=0;c<uw;c++){
-    const pr=Math.min(Math.floor(r*ph/uh),ph-1);
-    const pc=Math.min(Math.floor(c*pw/uw),pw-1);
-    const [rr,gg,bb,aa]=preset.pixels[pr]?.[pc]||[0,0,0,0];
-    const i=((uy+r)*64+(ux+c))*4;
-    data[i]=rr;data[i+1]=gg;data[i+2]=bb;data[i+3]=aa;
+    const pr2=Math.min(Math.floor(r*pr.h/uh),pr.h-1);
+    const pc=Math.min(Math.floor(c*pr.w/uw),pr.w-1);
+    const[rr,gg,bb,aa]=pr.pixels[pr2]?.[pc]||[0,0,0,0];
+    const i=((uy+r)*64+(ux+c))*4;d[i]=rr;d[i+1]=gg;d[i+2]=bb;d[i+3]=aa;
   }
-  updatePixelEditor(); render(); toast('✅ 패턴 적용됐어요!');
+  renderEditCanvas();render2D();updateAllThumbs();toast('✅ 패턴 적용됨!');
 }
 
-function deletePreset(id){
-  S.presets=S.presets.filter(p=>p.id!==id);
-  localStorage.setItem('skinIslandPresets',JSON.stringify(S.presets));
-  buildPresets(); toast('🗑️ 삭제됐어요');
-}
+function delPreset(id){PRESETS=PRESETS.filter(p=>p.id!==id);localStorage.setItem('si3_pres',JSON.stringify(PRESETS));buildPresets();toast('🗑️ 삭제됨');}
 
 function buildPresets(){
-  const grid=document.getElementById('presetGrid');
-  if(!S.presets.length){
-    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;font-size:0.7rem;color:var(--muted);padding:10px;font-weight:600">상단 [패턴 저장] 버튼으로<br>현재 편집 중인 파츠를 저장해요!</div>';
-    return;
-  }
-  grid.innerHTML='';
-  S.presets.forEach(p=>{
-    const card=document.createElement('div');
-    card.className='preset-card';
-    card.title=`클릭: 현재 파츠에 적용 (${p.partId})`;
-    const tw=Math.max(p.w*4,32),th=Math.max(p.h*4,32);
-    const cv=document.createElement('canvas');
-    cv.className='preset-canvas';cv.width=p.w;cv.height=p.h;
-    cv.style.width=tw+'px';cv.style.height=th+'px';
+  const g=document.getElementById('preGrid');
+  if(!PRESETS.length){g.innerHTML='<div class="pr-empty">⭐ [패턴저장] 버튼으로<br>현재 면을 저장하세요!</div>';return;}
+  g.innerHTML='';
+  PRESETS.forEach(pr=>{
+    const card=document.createElement('div');card.className='prc';
+    const tw=Math.max(pr.w*3,24),th=Math.max(pr.h*3,24);
+    const cv=document.createElement('canvas');cv.width=pr.w;cv.height=pr.h;cv.style.width=tw+'px';cv.style.height=th+'px';
     const ctx=cv.getContext('2d');
-    p.pixels.forEach((row,r)=>row.forEach(([rr,gg,bb,aa],c)=>{
-      if(aa<8)return;ctx.fillStyle=`rgba(${rr},${gg},${bb},${aa/255})`;ctx.fillRect(c,r,1,1);
-    }));
-    const nm=document.createElement('div');nm.className='preset-name';nm.textContent=p.name;
-    const sub=document.createElement('div');sub.style.cssText='font-size:0.5rem;color:var(--muted);font-weight:600';sub.textContent=p.partId;
-    const del=document.createElement('button');del.className='preset-del';del.textContent='✕';
-    del.onclick=e=>{e.stopPropagation();deletePreset(p.id);};
-    card.appendChild(cv);card.appendChild(nm);card.appendChild(sub);card.appendChild(del);
-    card.onclick=()=>applyPreset(p);
-    grid.appendChild(card);
+    pr.pixels.forEach((row,r)=>row.forEach(([rr,gg,bb,aa],c)=>{if(aa<8)return;ctx.fillStyle=`rgba(${rr},${gg},${bb},${aa/255})`;ctx.fillRect(c,r,1,1);}));
+    const nm=document.createElement('div');nm.className='prc-nm';nm.textContent=pr.name;
+    const del=document.createElement('button');del.className='prc-del';del.textContent='✕';
+    del.onclick=e=>{e.stopPropagation();delPreset(pr.id);};
+    card.append(cv,nm,del);card.onclick=()=>applyPreset(pr);g.appendChild(card);
   });
 }
 
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
 // AI GENERATION
-// ═══════════════════════════════════════════════════════════
-async function generateWithAI(){
-  const prompt=document.getElementById('aiPrompt').value.trim();
-  if(!prompt){toast('프롬프트를 입력해주세요!');return;}
-  const target=document.getElementById('aiTarget').value;
-  const btn=document.getElementById('aiBtn');
-  const status=document.getElementById('aiStatus');
-  btn.disabled=true;
-  btn.innerHTML='<span class="spinner"></span> 생성 중...';
-  status.textContent='🎨 AI가 스킨을 그리고 있어요...';
-
-  const targetParts = target==='full' ? PARTS : PARTS.filter(p=>p.id===target||p.id===target+'2');
-  const partDesc = targetParts.map(p=>`${p.name}(uvF:${p.uvF}, uvB:${p.uvB}, uvTop:${p.uvTop||'없음'}, uvR:${p.uvR||'없음'}, uvL:${p.uvL||'없음'}, w:${p.w}, h:${p.h})`).join('\n');
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+// ════════════════════════════════════════
+async function genAI(){
+  const pmt=document.getElementById('aiPmt').value.trim();
+  if(!pmt){toast('프롬프트를 입력해주세요!');return;}
+  const tgt=document.getElementById('aiTgt').value;
+  const btn=document.getElementById('aiBtn'),st=document.getElementById('aiSt');
+  btn.disabled=true;btn.innerHTML='<span class="sp2"></span> 생성 중...';
+  st.textContent='🎨 AI가 스킨 픽셀을 생성하고 있어요...';
+  const tParts=tgt==='full'?PARTS:PARTS.filter(p=>p.id===tgt||p.id===tgt+'2');
+  const partDesc=tParts.map(p=>`파츠ID:${p.id} uvF:[${p.uvF}] uvB:[${p.uvB}] uvT:[${p.uvT}] uvR:[${p.uvR}] uvL:[${p.uvL}] 크기:${p.w}×${p.h}`).join('\n');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        messages:[{
-          role:'user',
-          content:`마인크래프트 64×64 스킨 UV맵에 픽셀을 그려야 해. JSON으로만 응답해. 마크다운 없이.
-
-요청: "${prompt}"
-대상 파츠:
-${partDesc}
-
-각 파츠의 uvF(앞면), uvB(뒷면), uvTop(위), uvR(오른쪽), uvL(왼쪽) 영역에 픽셀을 채워줘.
-64×64 스킨 좌표계 기준으로 각 픽셀의 [x, y, r, g, b, a] 배열을 최대 400개 반환해.
-캐릭터 컨셉에 맞게 귀엽고 생동감 있게 색칠해줘.
-배경(투명 영역)은 a=0으로 해.
-
-응답 형식:
-{"pixels":[[x,y,r,g,b,a],...], "palette":["#hex",...], "description":"간단한 설명"}`
-        }]
+        model:'claude-sonnet-4-20250514',max_tokens:2000,
+        system:'마인크래프트 64×64 스킨 픽셀 생성 전문가. 순수 JSON만 반환. 마크다운 없음.',
+        messages:[{role:'user',content:`디자인: "${pmt}"\n파츠:\n${partDesc}\n\n각 파츠 UV 영역에 픽셀 생성. 최대 600개. 투명(a=0) 제외.\n응답:{"pixels":[[x,y,r,g,b,255],...],"description":"설명"}`}]
       })
     });
-    const data=await resp.json();
-    const txt=data.content?.[0]?.text||'';
-    let clean=txt.replace(/```json|```/g,'').trim();
-    const result=JSON.parse(clean);
+    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`HTTP ${res.status}`);}
+    const data=await res.json();
+    const raw=(data.content?.[0]?.text||'').replace(/^```[\w]*\n?/,'').replace(/\n?```$/,'').trim();
+    const result=JSON.parse(raw);
     const pixels=result.pixels||[];
-    status.textContent=`✅ ${result.description||'생성 완료!'} (${pixels.length}px)`;
-
-    // Apply pixels to layers
-    targetParts.forEach(p=>{
-      ensureLayer(p.id);
-    });
+    if(!pixels.length)throw new Error('픽셀 데이터 없음');
     pixels.forEach(([x,y,r,g,b,a])=>{
       if(x<0||x>63||y<0||y>63)return;
-      // Find which part this pixel belongs to
       PARTS.forEach(p=>{
-        const regions=[p.uvF,p.uvB,p.uvTop,p.uvBot,p.uvR,p.uvL].filter(Boolean);
-        regions.forEach(([ux,uy,uw,uh])=>{
-          if(x>=ux&&x<ux+uw&&y>=uy&&y<uy+uh&&S.layers[p.id]){
-            const i=(y*64+x)*4;
-            const d=S.layers[p.id].data;
-            d[i]=r;d[i+1]=g;d[i+2]=b;d[i+3]=a||255;
+        [p.uvF,p.uvB,p.uvT,p.uvBt,p.uvR,p.uvL].filter(Boolean).forEach(([ux,uy,uw,uh])=>{
+          if(x>=ux&&x<ux+uw&&y>=uy&&y<uy+uh){
+            if(!S.layers[p.id]&&tParts.includes(p))ensureL(p.id);
+            const L=S.layers[p.id];if(!L)return;
+            const i=(y*64+x)*4;L.data[i]=r;L.data[i+1]=g;L.data[i+2]=b;L.data[i+3]=a||255;
           }
         });
       });
     });
-    if(result.palette) result.palette.forEach(h=>{ if(!AC_PALETTE.includes(h))AC_PALETTE.unshift(h); });
-    buildPalette();
-    document.getElementById('emptyState').style.display='none';
-    updatePixelEditor(); render();
-    toast('✨ AI 스킨 생성 완료!');
-  } catch(e) {
-    status.textContent='❌ 오류: '+e.message;
-    toast('생성 실패. 다시 시도해주세요.');
+    st.textContent=`✅ ${result.description||'완료!'} (${pixels.length}px)`;
+    document.getElementById('empty').style.display='none';
+    if(S.mode==='edit')renderEditCanvas();render2D();updateAllThumbs();toast('✨ AI 생성 완료!');
+  }catch(e){
+    st.textContent=`❌ ${e.message?.slice(0,70)||e}`;
+    console.error('[AI]',e);toast('생성 실패. 콘솔 확인');
   }
-  btn.disabled=false;
-  btn.innerHTML='✨ 생성';
+  btn.disabled=false;btn.innerHTML='✨ 생성';
 }
 
-// ═══════════════════════════════════════════════════════════
-// UI BUILDING
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
+// UI BUILD
+// ════════════════════════════════════════
 function buildUI(){
-  const list=document.getElementById('partsList');
-  list.innerHTML='';
-  let lastGroup=null;
+  const list=document.getElementById('partsList');list.innerHTML='';
+  let lastG=null;
   PARTS.forEach(p=>{
-    if(p.group!==lastGroup){
-      lastGroup=p.group;
-      const hdr=document.createElement('div');
-      hdr.className='group-hdr';
-      hdr.textContent=p.group==='base'?'베이스 레이어':'오버레이 레이어';
-      list.appendChild(hdr);
+    if(p.g!==lastG){
+      lastG=p.g;
+      const hd=document.createElement('div');hd.className='ghd';
+      hd.textContent=p.g==='base'?'베이스':'오버레이';list.appendChild(hd);
     }
-    const el=document.createElement('div');
-    el.className='pi';el.id='pi_'+p.id;
-    if(p.isOverlay)el.style.paddingLeft='18px';
-    el.innerHTML=`<span class="pi-icon">${p.icon}</span>
-      <div class="pi-info"><div class="pi-name">${p.name}</div><div class="pi-sub" id="psub_${p.id}">클릭하여 편집</div></div>
-      <button class="pi-vis" id="pvis_${p.id}" onclick="toggleVis(event,'${p.id}')" title="표시/숨김">👁</button>`;
-    el.onclick=e=>{ if(!e.target.classList.contains('pi-vis'))selPart(p.id); };
-    list.appendChild(el);
+    const el=document.createElement('div');el.className='pi';el.id='pi_'+p.id;
+    if(p.ov)el.style.paddingLeft='14px';
+    el.innerHTML=`<span class="pi-ic">${p.ic}</span>
+      <div class="pi-info"><div class="pi-nm">${p.nm}</div><div class="pi-sb" id="psb_${p.id}">클릭 편집</div></div>
+      <button class="pi-vis" id="pvis_${p.id}" onclick="togV(event,'${p.id}')">👁</button>`;
+    el.onclick=e=>{if(!e.target.classList.contains('pi-vis'))selP(p.id);};list.appendChild(el);
   });
-
-  // Thumb grids
-  const base=document.getElementById('thumbBase');
-  const ovl=document.getElementById('thumbOverlay');
-  base.innerHTML='';ovl.innerHTML='';
+  const bG=document.getElementById('thBase'),oG=document.getElementById('thOvl');
+  bG.innerHTML='';oG.innerHTML='';
   PARTS.forEach(p=>{
-    const tw=Math.max(p.w*3,32),th=Math.max(p.h*3,32);
-    const card=document.createElement('div');
-    card.className='tc'+(p.isOverlay?' ovl':'');card.id='tc_'+p.id;
-    card.onclick=()=>selPart(p.id);
+    const tw=Math.max(p.w*3,28),th=Math.max(p.h*3,28);
+    const card=document.createElement('div');card.className='tc'+(p.ov?' ovl':'');card.id='tc_'+p.id;card.onclick=()=>selP(p.id);
     card.innerHTML=`<canvas id="tc_cv_${p.id}" width="${p.w}" height="${p.h}" style="width:${tw}px;height:${th}px"></canvas>
-      <div class="tc-name">${p.icon} ${p.name}</div>
-      <div class="tc-badge no" id="tcb_${p.id}">비어있음</div>`;
-    (p.isOverlay?ovl:base).appendChild(card);
+      <div class="tc-nm">${p.ic} ${p.nm}</div>
+      <div class="tc-b no" id="tcb_${p.id}">비어있음</div>`;
+    (p.ov?oG:bG).appendChild(card);
   });
 }
 
-function selPart(id){
-  S.selPart=id;
+function selP(id){
+  S.sel=id;
   document.querySelectorAll('.pi').forEach(e=>e.classList.remove('active'));
   document.querySelectorAll('.tc').forEach(e=>e.classList.remove('active'));
   document.getElementById('pi_'+id)?.classList.add('active');
   document.getElementById('tc_'+id)?.classList.add('active');
-  updatePixelEditor();
-  if(S.view!=='3d')render2D();
-  toast(`${PARTS.find(p=>p.id===id).icon} ${PARTS.find(p=>p.id===id).name} 편집 중`);
+  if(S.mode==='edit'){renderEditCanvas();}
+  else if(S.mode==='preview'){render2D();}
+  const p=PARTS.find(x=>x.id===id);
+  toast(`${p.ic} ${p.nm} 선택됨`);
 }
 
-function toggleVis(e,id){
-  e.stopPropagation();
-  S.vis[id]=!S.vis[id];
+function togV(e,id){
+  e.stopPropagation();S.vis[id]=!S.vis[id];
   document.getElementById('pvis_'+id)?.classList.toggle('off',!S.vis[id]);
-  render();
+  if(S.mode==='3d')update3D();else render2D();
 }
 
-// 2D canvas click to select part
-document.getElementById('canvas2d').addEventListener('click', e=>{
-  if(S.view==='3d'||S.view==='uv')return;
-  const canvas=document.getElementById('canvas2d');
-  const pp=canvas._pp; if(!pp)return;
-  const rect=canvas.getBoundingClientRect();
-  const cx=e.clientX-rect.left, cy=e.clientY-rect.top;
-  for(const[id,pos] of Object.entries(pp)){
-    if(cx>=pos.x&&cx<=pos.x+pos.w&&cy>=pos.y&&cy<=pos.y+pos.h){
-      selPart(id); break;
+// Click preview to select+switch to edit
+document.getElementById('c2d').addEventListener('click',e=>{
+  if(S.mode!=='preview')return;
+  const cv=document.getElementById('c2d'),pp=cv._pp;if(!pp)return;
+  const r=cv.getBoundingClientRect(),cx=e.clientX-r.left,cy=e.clientY-r.top;
+  for(const[id,pos]of Object.entries(pp)){
+    if(cx>=pos.x&&cx<pos.x+pos.w&&cy>=pos.y&&cy<pos.y+pos.h){
+      selP(id);
+      // Switch to edit mode
+      setMode('edit',document.getElementById('vbEdit'));
+      toast(`✏️ ${PARTS.find(p=>p.id===id).nm} 편집 모드`);
+      break;
     }
   }
 });
 
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
 // THUMBNAILS
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
 function updateThumb(id){
-  const p=PARTS.find(x=>x.id===id);
-  const layer=S.layers[id];
-  const tc=document.getElementById('tc_'+id);
-  const badge=document.getElementById('tcb_'+id);
-  const cv=document.getElementById('tc_cv_'+id);
-  if(!cv)return;
-  const ctx=cv.getContext('2d');
-  ctx.imageSmoothingEnabled=false;
-  ctx.clearRect(0,0,cv.width,cv.height);
-  if(!layer){tc?.classList.remove('has-data');if(badge){badge.textContent='비어있음';badge.className='tc-badge no';}return;}
-  const[ux,uy,uw,uh]=p.uvF,src=layer.data;
-  for(let r=0;r<uh;r++) for(let c=0;c<uw;c++){
-    const i=((uy+r)*64+(ux+c))*4;if(src[i+3]<8)continue;
-    ctx.fillStyle=`rgba(${src[i]},${src[i+1]},${src[i+2]},${src[i+3]/255})`;
-    ctx.fillRect(c,r,1,1);
-  }
-  tc?.classList.add('has-data');
-  if(badge){badge.textContent='로드됨';badge.className='tc-badge ok';}
-  document.getElementById('psub_'+id).textContent='✅ 로드됨';
-  document.getElementById('pi_'+id)?.classList.add('has-data');
+  const p=PARTS.find(x=>x.id===id),L=S.layers[id];
+  const tc=document.getElementById('tc_'+id),bdg=document.getElementById('tcb_'+id);
+  const cv=document.getElementById('tc_cv_'+id);if(!cv)return;
+  const ctx=cv.getContext('2d');ctx.imageSmoothingEnabled=false;ctx.clearRect(0,0,cv.width,cv.height);
+  if(!L){tc?.classList.remove('has-d');if(bdg){bdg.textContent='비어있음';bdg.className='tc-b no';}document.getElementById('psb_'+id).textContent='클릭 편집';document.getElementById('pi_'+id)?.classList.remove('has-d');return;}
+  const[ux,uy,uw,uh]=p.uvF,src=L.data;
+  for(let r=0;r<uh;r++)for(let c=0;c<uw;c++){const i=((uy+r)*64+(ux+c))*4;if(src[i+3]<8)continue;ctx.fillStyle=`rgba(${src[i]},${src[i+1]},${src[i+2]},${src[i+3]/255})`;ctx.fillRect(c,r,1,1);}
+  tc?.classList.add('has-d');if(bdg){bdg.textContent='로드됨';bdg.className='tc-b ok';}
+  document.getElementById('psb_'+id).textContent='✅ 로드됨';document.getElementById('pi_'+id)?.classList.add('has-d');
 }
+function updateAllThumbs(){PARTS.forEach(p=>updateThumb(p.id));document.getElementById('sparts').textContent=`파츠 ${PARTS.filter(p=>S.layers[p.id]).length}/12`;}
 
-function updateAllThumbs(){
-  PARTS.forEach(p=>updateThumb(p.id));
-  const base=PARTS.filter(p=>!p.isOverlay&&S.layers[p.id]).length;
-  const ovl=PARTS.filter(p=>p.isOverlay&&S.layers[p.id]).length;
-  document.getElementById('sparts').textContent=`베이스 ${base}/6 · 오버레이 ${ovl}/6`;
-}
-
-// ═══════════════════════════════════════════════════════════
-// FILE LOADING
-// ═══════════════════════════════════════════════════════════
-function readPNG(file,cb){
-  const r=new FileReader();
-  r.onload=e=>{
-    const img=new Image();
-    img.onload=()=>{
-      const c=document.createElement('canvas');c.width=64;c.height=64;
-      const ctx=c.getContext('2d');ctx.drawImage(img,0,0,64,64);
-      cb(ctx.getImageData(0,0,64,64),file.name);
-    };
-    img.src=e.target.result;
-  };
-  r.readAsDataURL(file);
-}
-
-function loadFullSkin(input){
+// ════════════════════════════════════════
+// FILE I/O
+// ════════════════════════════════════════
+function loadFull(input){
   const f=input.files[0];if(!f)return;
-  readPNG(f,(imgData,name)=>{
-    PARTS.forEach(p=>{S.layers[p.id]=new ImageData(new Uint8ClampedArray(imgData.data),64,64);});
-    document.getElementById('fuOk').textContent='✅ '+name;
-    document.getElementById('fuOk').style.display='block';
-    document.getElementById('emptyState').style.display='none';
-    render(); toast('📂 스킨 로드됨: '+name);
-    setStatus('로드됨: '+name,true);
-  });
-  input.value='';
+  const fr=new FileReader();
+  fr.onload=e=>{
+    const img=new Image();img.onload=()=>{
+      const c=document.createElement('canvas');c.width=64;c.height=64;c.getContext('2d').drawImage(img,0,0,64,64);
+      const raw=c.getContext('2d').getImageData(0,0,64,64);
+      PARTS.forEach(p=>{S.layers[p.id]=new ImageData(new Uint8ClampedArray(raw.data),64,64);});
+      document.getElementById('fuOk').textContent='✅ '+f.name;document.getElementById('fuOk').style.display='block';
+      document.getElementById('empty').style.display='none';S.hist=[];
+      if(S.mode==='edit')renderEditCanvas();render2D();updateAllThumbs();toast('📂 '+f.name);setSt('로드됨: '+f.name,true);
+    };img.src=e.target.result;
+  };fr.readAsDataURL(f);input.value='';
 }
 
-// ═══════════════════════════════════════════════════════════
-// VIEW
-// ═══════════════════════════════════════════════════════════
-function setView(v,btn){
-  S.view=v;
-  document.querySelectorAll('.vbtn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const c2=document.getElementById('canvas2d');
-  const c3=document.getElementById('canvas3d');
-  const hint=document.getElementById('hint3d');
-  if(v==='3d'){
-    c2.style.display='none';c3.style.display='block';hint.classList.add('show');
-    if(!threeCtx)init3D();
-    update3D();threeCtx.loop();
-  } else {
-    c2.style.display='block';c3.style.display='none';hint.classList.remove('show');
-    render2D();
-  }
+function dlFull(){
+  if(!Object.keys(S.layers).length){toast('스킨을 업로드하거나 생성하세요');return;}
+  const m=getMerged(),c=document.createElement('canvas');c.width=64;c.height=64;
+  c.getContext('2d').putImageData(m,0,0);
+  const a=document.createElement('a');a.download='merged_skin.png';a.href=c.toDataURL('image/png');a.click();
+  toast('💾 저장됐어요!');
 }
-function toggleGrid(btn){S.grid=!S.grid;btn.classList.toggle('active',S.grid);if(S.view!=='3d')render2D();}
-function toggleOverlay(btn){S.overlay=!S.overlay;btn.classList.toggle('active',S.overlay);if(S.view!=='3d')render2D();}
-function zoom(d){S.scale=Math.max(2,Math.min(12,S.scale+d));document.getElementById('zLabel').textContent='×'+S.scale;if(S.view!=='3d')render2D();}
 
-// ═══════════════════════════════════════════════════════════
-// DOWNLOAD
-// ═══════════════════════════════════════════════════════════
-function dl(canvas,name){const a=document.createElement('a');a.download=name;a.href=canvas.toDataURL('image/png');a.click();}
-function downloadFull(){
-  if(!Object.keys(S.layers).length){toast('스킨을 먼저 업로드하거나 생성해주세요!');return;}
-  const m=getMerged();const c=document.createElement('canvas');c.width=64;c.height=64;
-  c.getContext('2d').putImageData(m,0,0);dl(c,'merged_skin.png');toast('💾 저장됐어요!');
-}
-function downloadAllParts(){
-  const loaded=PARTS.filter(p=>S.layers[p.id]);
-  if(!loaded.length){toast('저장할 파츠가 없어요!');return;}
-  loaded.forEach((p,i)=>setTimeout(()=>{
+function dlParts(){
+  const ld=PARTS.filter(p=>S.layers[p.id]);if(!ld.length){toast('저장할 파츠 없음');return;}
+  ld.forEach((p,i)=>setTimeout(()=>{
     const[ux,uy,uw,uh]=p.uvF,src=S.layers[p.id].data;
-    const c=document.createElement('canvas');c.width=uw;c.height=uh;
-    const ctx=c.getContext('2d');
-    for(let r=0;r<uh;r++) for(let c2=0;c2<uw;c2++){
-      const idx=((uy+r)*64+(ux+c2))*4;if(src[idx+3]<8)continue;
-      ctx.fillStyle=`rgba(${src[idx]},${src[idx+1]},${src[idx+2]},${src[idx+3]/255})`;ctx.fillRect(c2,r,1,1);
-    }
-    dl(c,`skin_${p.id}.png`);
-  },i*200));
-  toast(`📦 ${loaded.length}개 파츠 저장!`);
+    const c=document.createElement('canvas');c.width=uw;c.height=uh;const ctx=c.getContext('2d');
+    for(let r=0;r<uh;r++)for(let cc=0;cc<uw;cc++){const idx=((uy+r)*64+(ux+cc))*4;if(src[idx+3]<8)continue;ctx.fillStyle=`rgba(${src[idx]},${src[idx+1]},${src[idx+2]},${src[idx+3]/255})`;ctx.fillRect(cc,r,1,1);}
+    const a=document.createElement('a');a.download=`part_${p.id}.png`;a.href=c.toDataURL('image/png');a.click();
+  },i*200));toast(`📦 ${ld.length}개 파츠!`);
 }
-function downloadView(){
-  const cv=S.view==='3d'?document.getElementById('canvas3d'):document.getElementById('canvas2d');
-  dl(cv,'skin_preview.png');toast('📷 캡처됐어요!');
+
+function dlView(){
+  const cv=S.mode==='3d'?document.getElementById('c3d'):S.mode==='edit'?document.getElementById('cEdit'):document.getElementById('c2d');
+  const a=document.createElement('a');a.download='preview.png';a.href=cv.toDataURL('image/png');a.click();toast('📷 캡처됐어요!');
 }
+
 function resetAll(){
-  if(!confirm('모든 파츠를 초기화할까요?'))return;
-  S.layers={};editHistStack=[];
-  PARTS.forEach(p=>{
-    document.getElementById('pi_'+p.id)?.classList.remove('has-data');
-    document.getElementById('psub_'+p.id).textContent='클릭하여 편집';
-  });
-  document.getElementById('fuOk').style.display='none';
-  render();updateAllThumbs();updatePixelEditor();toast('🔄 초기화됐어요');setStatus('초기화 완료',false);
+  if(!confirm('초기화할까요?'))return;
+  S.layers={};S.hist=[];document.getElementById('fuOk').style.display='none';
+  if(S.mode==='edit')renderEditCanvas();render2D();updateAllThumbs();toast('🔄 초기화됐어요');setSt('초기화 완료',false);
 }
 
-// ═══════════════════════════════════════════════════════════
-// STATUS & TOAST
-// ═══════════════════════════════════════════════════════════
-function setStatus(msg,ok){
-  document.getElementById('stxt').textContent=msg;
-  document.getElementById('sdot').className='sdot'+(ok?' g':'');
-}
-let toastTimer;
-function toast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg;el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>el.classList.remove('show'),2200);
-}
+function setSt(msg,ok){document.getElementById('stxt').textContent=msg;document.getElementById('sdot').className='sdot'+(ok?' g':'');}
+let _t;
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('on');clearTimeout(_t);_t=setTimeout(()=>el.classList.remove('on'),2300);}
 
-// ═══════════════════════════════════════════════════════════
+// ════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════════════════════
-buildUI();
-buildPalette();
-buildPresets();
-setColor('#FFB3C1');
-selPart('head');
-render2D();
+// ════════════════════════════════════════
+buildUI();buildPal();buildPresets();setCol('#FFB3C1');selP('head');render2D();
 </script>
 </body>
 </html>
